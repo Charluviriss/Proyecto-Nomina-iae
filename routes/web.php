@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\TipoNominaController;
-
+use App\Http\Controllers\TipoPrestamoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -11,7 +11,7 @@ Route::get('/', function () {
 
 
 Route::resource('empleados', EmpleadoController::class);
-
+Route::resource('tipos', TipoPrestamoController::class);
 // 1. Ruta para mostrar el formulario de creación de un nuevo empleado
 //Route::get('/empleados/crear', [EmpleadoController::class, 'create'])->name('empleados.create');
 
