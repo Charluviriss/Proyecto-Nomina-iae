@@ -26,6 +26,21 @@
                 <tr>
                     <td>{{ $nomina->id }}</td>
                     <td>{{ $nomina->descripcion_nomina }}</td>
+                    <td class="d-flex justify-content-center">
+                        {{-- BOTÓN DE EDITAR --}}
+                        <a href="{{ route('tipo_nominas.edit', $nomina) }}" class="btn btn-sm btn-primary me-2" title="Editar">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+
+                        {{-- BOTÓN DE ELIMINAR --}}
+                        <form action="{{ route('tipo_nominas.destroy', $nomina) }}" method="POST" onsubmit="return confirm('¿Está seguro de que desea eliminar esta nómina?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-danger" title="Eliminar">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </button>
+                        </form>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
