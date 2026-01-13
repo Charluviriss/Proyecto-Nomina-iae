@@ -21,11 +21,12 @@ use App\Http\Controllers\DireccionController;
 use App\Http\Controllers\DepartamentoController;
 
 
-
-
 use App\Http\Controllers\GrupoBancoController;
 use App\Http\Controllers\BancoController;
 use App\Http\Controllers\TasaInteresController;
+
+// Rutas para la empresa
+use App\Http\Controllers\EmpresaController;
 
 
 Route::get('/', function () {
@@ -83,3 +84,7 @@ Route::resource('bancos', BancoController::class);
 
 // Usando la ruta 'tasas_interes' para el recurso
 Route::resource('tasas_interes', TasaInteresController::class);
+
+
+// Rutas para la empres
+Route::resource('empresas', EmpresaController::class);
