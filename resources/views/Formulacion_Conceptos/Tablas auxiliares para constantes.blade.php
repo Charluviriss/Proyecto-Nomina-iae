@@ -3,20 +3,15 @@
 @section('content')
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Tipos de Préstamos</h1>
-        <a href="{{ route('tipo_prestamos.create') }}" class="btn btn-success" style="background-color: #198754; color: #fff;">
-            Registrar Nuevo Préstamo
+        <h1>Tablas Auxiliares para Constantes</h1>
+        <a href="{{ route('tablas_auxiliares.create') }}" class="btn btn-success" style="background-color: #198754; color: #fff;">
+            Registrar Nueva Tabla Auxiliar
         </a>
     </div>
     
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
-        </div>
-    @endif
-    @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
         </div>
     @endif
 
@@ -33,17 +28,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($tipos as $tipo)
+                        @foreach($tablasAuxiliares as $tabla)
                             <tr>
-                                <td>{{ $tipo->id }}</td>
-                                <td>{{ $tipo->codigo }}</td>
-                                <td>{{ $tipo->descripcion }}</td>
+                                <td>{{ $tabla->id }}</td>
+                                <td>{{ $tabla->codigo }}</td>
+                                <td>{{ $tabla->descripcion }}</td>
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
-                                        <a href="{{ route('tipo_prestamos.edit', $tipo->id) }}" class="btn btn-warning btn-sm">
+                                        <a href="{{ route('tablas_auxiliares.edit', $tabla->id) }}" class="btn btn-warning btn-sm">
                                             Editar
                                         </a>
-                                        <form action="{{ route('tipo_prestamos.destroy', $tipo->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este préstamo: {{ $tipo->descripcion }}?')">
+                                        <form action="{{ route('tablas_auxiliares.destroy', $tabla->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este registro?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm">
@@ -54,9 +49,9 @@
                                 </td>
                             </tr>
                         @endforeach
-                        @if($tipos->isEmpty())
+                        @if($tablasAuxiliares->isEmpty())
                             <tr>
-                                <td colspan="4" class="text-center text-muted">No hay tipos de préstamos registrados.</td>
+                                <td colspan="4" class="text-center text-muted">No hay tablas auxiliares registradas.</td>
                             </tr>
                         @endif
                     </tbody>

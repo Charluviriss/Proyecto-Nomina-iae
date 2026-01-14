@@ -26,6 +26,12 @@ use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\GrupoBancoController;
 use App\Http\Controllers\BancoController;
 use App\Http\Controllers\TasaInteresController;
+use App\Http\Controllers\BaremoController;
+use App\Http\Controllers\TablaAuxiliarController;
+use App\Http\Controllers\AdicionalPersonalController;
+use App\Http\Controllers\AdicionalConceptoController;
+use App\Http\Controllers\ConceptoNominaController;
+use App\Http\Controllers\ConstanteFormulaController;
 
 
 Route::get('/', function () {
@@ -83,3 +89,10 @@ Route::resource('bancos', BancoController::class);
 
 // Usando la ruta 'tasas_interes' para el recurso
 Route::resource('tasas_interes', TasaInteresController::class);
+
+Route::resource('Formulacion_Conceptos', BaremoController::class);
+Route::resource('tablas_auxiliares', TablaAuxiliarController::class);
+Route::resource('adicionales_personal', AdicionalPersonalController::class);
+Route::resource('adicionales_conceptos', AdicionalConceptoController::class);
+Route::resource('conceptos_nomina', ConceptoNominaController::class);
+Route::resource('constantes_formulas', ConstanteFormulaController::class);

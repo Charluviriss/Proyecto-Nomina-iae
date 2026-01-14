@@ -12,67 +12,52 @@ class TipoNominaController extends Controller
      */
     public function index()
     {
-        $tipoNomina = tipoNomina::all();
-
+        $tipoNomina = TipoNomina::all();
         return view('tipos.show_tipo_nomina' , compact('tipoNomina'));        
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('tipos.tipo_nomina');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        // PASO 1: VALIDACIÓN DE DATOS
         $request->validate([
             'descripcion_nomina' => 'required|string|max:100',
         ]);
 
-        // PASO 2: CREACIÓN DEL REGISTRO
-        // El método create() toma todos los datos validados y los guarda en la base de datos.
-        tipoNomina::create($request->all());
+        TipoNomina::create($request->all());
 
-        // PASO 3: REDIRECCIÓN CON MENSAJE
         return redirect()->route('tipo_nominas.index')
-                         ->with('success', '¡Nomina registrada con éxito!');
+                         ->with('success', '¡Nómina registrada con éxito!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit($id)
     {
-        //
+        $tipoNomina = TipoNomina::findOrFail($id);
+        return view('tipos.edit_tipo_nomina', compact('tipoNomina'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'descripcion_nomina' => 'required|string|max:100',
+        ]);
+
+        $tipoNomina = TipoNomina::findOrFail($id);
+        $tipoNomina->update($request->all());
+
+        return redirect()->route('tipo_nominas.index')
+                         ->with('success', '¡Nómina actualizada con éxito!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy($id)
     {
-        //
-    }
+        $tipoNomina = TipoNomina::findOrFail($id);
+        $tipoNomina->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('tipo_nominas.index')
+                         ->with('success', '¡Nómina eliminada con éxito!');
     }
 }

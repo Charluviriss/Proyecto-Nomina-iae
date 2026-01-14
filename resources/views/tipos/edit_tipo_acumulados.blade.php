@@ -2,46 +2,33 @@
 
 @section('content')
 <div class="container">
-    <h1>Editar/Actualizar tipo de Acumulado</h1>
-    
-    {{-- Botón de referencia a la otra vista --}}
-    <a href="{{ route('tipo_acumulados.index') }}" class="btn btn-secondary mb-3">
-        Ver detalles de los acumulados
-    </a>
-
-    {{-- 
-        El action apunta a la ruta empleados.store (POST), que 
-        será el método para guardar los datos en la base de datos.
-    --}}
-    <form action="{{ route('tipo_acumulados.update' , $tipoAcumulado) }}" method="POST">
-        @csrf {{-- ¡Directiva de seguridad obligatoria en Laravel! --}}
-        @method('PATCH')
-
-        @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
-@error('descripcion_tipo')
-    <div class="alert alert-danger">{{ $message }}</div>
-@enderror
-
-
-        {{-- FILA 1: Nombre, Cédula, Sexo --}}
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <label for="nombre" class="form-label">Nuevo Acumulado:</label>
-                <input type="text" class="form-control" id="frecuencia" name="descripcion_acumulados" required>
-                <label for="nombre" class="form-label">Abreviacion del Nuevo Acumulado:</label>
-                <input type="text" class="form-control" id="frecuencia" name="descripcion_tipo" required>
-            </div>  
+    <div class="card shadow">
+        <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0">Modificando Acumulado: {{ $tipoAcumulado->descripcion_tipo }}</h5>
         </div>
-        <button type="submit" class="btn btn-primary mt-4">Guardar Acumulado</button>
-    </form>
+        <div class="card-body">
+            <form action="{{ route('tipo_acumulados.update', $tipoAcumulado->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+
+                <div class="row align-items-end">
+                    <div class="col-md-3 mb-3">
+                        <label for="descripcion_tipo" class="form-label">Tipo de Acumulado:</label>
+                        <input type="text" class="form-control" id="descripcion_tipo" name="descripcion_tipo" value="{{ $tipoAcumulado->descripcion_tipo }}" required maxlength="20">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="descripcion_acumulados" class="form-label">Descripción Detallada:</label>
+                        <input type="text" class="form-control" id="descripcion_acumulados" name="descripcion_acumulados" value="{{ $tipoAcumulado->descripcion_acumulados }}" required maxlength="100">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success w-100">Actualizar</button>
+                            <a href="{{ route('tipo_acumulados.index') }}" class="btn btn-secondary w-100">Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 @endsection

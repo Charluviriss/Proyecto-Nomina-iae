@@ -13,13 +13,9 @@ class TipoAcumuladosController extends Controller
     public function index()
     {
         $tipoAcumulado = TipoAcumulados::all();
-
         return view('tipos.show_tipo_acumulados' , compact('tipoAcumulado'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('tipos.tipo_acumulados');

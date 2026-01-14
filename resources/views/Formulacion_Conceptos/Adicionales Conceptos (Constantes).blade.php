@@ -3,20 +3,15 @@
 @section('content')
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Tipos de Préstamos</h1>
-        <a href="{{ route('tipo_prestamos.create') }}" class="btn btn-success" style="background-color: #198754; color: #fff;">
-            Registrar Nuevo Préstamo
+        <h1>Constantes (Campos Adicionales) de Conceptos</h1>
+        <a href="{{ route('adicionales_conceptos.create') }}" class="btn btn-success" style="background-color: #198754; color: #fff;">
+            Registrar Nuevo Adicional
         </a>
     </div>
     
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
-        </div>
-    @endif
-    @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
         </div>
     @endif
 
@@ -26,24 +21,26 @@
                 <table class="table table-bordered table-striped mb-0">
                     <thead class="bg-white">
                         <tr>
-                            <th>ID</th>
-                            <th>Código</th>
+                            <th>Nro. Constante</th>
                             <th>Descripción</th>
+                            <th>Etiqueta</th>
+                            <th>Tipo</th>
                             <th class="text-center">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($tipos as $tipo)
+                        @foreach($adicionales as $adicional)
                             <tr>
-                                <td>{{ $tipo->id }}</td>
-                                <td>{{ $tipo->codigo }}</td>
-                                <td>{{ $tipo->descripcion }}</td>
+                                <td>{{ $adicional->nro_constante }}</td>
+                                <td>{{ $adicional->descripcion }}</td>
+                                <td>{{ $adicional->etiqueta }}</td>
+                                <td>{{ $adicional->tipo_dato }}</td>
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
-                                        <a href="{{ route('tipo_prestamos.edit', $tipo->id) }}" class="btn btn-warning btn-sm">
+                                        <a href="{{ route('adicionales_conceptos.edit', $adicional->id) }}" class="btn btn-warning btn-sm">
                                             Editar
                                         </a>
-                                        <form action="{{ route('tipo_prestamos.destroy', $tipo->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este préstamo: {{ $tipo->descripcion }}?')">
+                                        <form action="{{ route('adicionales_conceptos.destroy', $adicional->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este registro?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm">
@@ -54,9 +51,9 @@
                                 </td>
                             </tr>
                         @endforeach
-                        @if($tipos->isEmpty())
+                        @if($adicionales->isEmpty())
                             <tr>
-                                <td colspan="4" class="text-center text-muted">No hay tipos de préstamos registrados.</td>
+                                <td colspan="5" class="text-center text-muted">No hay adicionales registrados.</td>
                             </tr>
                         @endif
                     </tbody>

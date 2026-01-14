@@ -39,8 +39,7 @@ class TipoLiquidacionController extends Controller
     public function edit($id)
     {
         $tipo = TipoLiquidacion::findOrFail($id);
-        // Vista alternativa que ya tenías
-        return view('tipos.edit_tipo_Liquidacion', compact('tipo'));
+        return view('tipos.edit_tipo_liquidacion', compact('tipo'));
     }
 
     public function update(Request $request, $id)
