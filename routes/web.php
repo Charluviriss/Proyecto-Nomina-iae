@@ -14,6 +14,7 @@ use App\Http\Controllers\ProfesionesController;
 use App\Http\Controllers\CargosController;
 use App\Http\Controllers\CategoriasController;
 use App\Http\Controllers\TabuladorCategoriasController;
+use App\Http\Controllers\TipoParentescoController;
 
 /// niveles funcionales//
 use App\Http\Controllers\PresupuestoController;
@@ -62,6 +63,7 @@ Route::resource('tipo_Aumentos', TipoAumentoController::class);
 Route::resource('Guarderias', GuarderiaController::class);
 Route::resource('tipo_Liquidacion', TipoLiquidacionController::class);
 Route::resource('tipo_ausencia', TipoAusenciaController::class);
+Route::resource('tipo_parentesco', TipoParentescoController::class);
 //
 
 //Rutas para Profesiones - Cargos - Categorias
