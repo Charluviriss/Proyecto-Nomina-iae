@@ -20,17 +20,13 @@
                     {{-- Título principal del Menú: Configuración --}}
                     <button class="btn btn-dark dropdown-toggle" type="button" 
                             data-bs-toggle="dropdown" aria-expanded="false">
-                        ⚙️ Configuración
+                        Configuración
                     </button>
 
                     {{-- Contenedor principal del Menú (TODO debe ir aquí dentro) --}}
                     <ul class="dropdown-menu">
                         
-                        {{-- Opción 1: Usuarios --}}
-                        <li><a class="dropdown-item" href="#">Opción 1: Usuarios</a></li>
-                        
-                        {{-- Opción 2: Perfiles --}}
-                        <li><a class="dropdown-item" href="#">Opción 2: Perfiles</a></li>
+                        <li><a class="dropdown-item" href="{{ route('empresas.index') }}">Empresa</a></li>
                         
                         {{-- SEPARADOR --}}
                         <li><hr class="dropdown-divider"></li>
@@ -38,7 +34,7 @@
                         {{-- **OPCIÓN 3: NIVELES FUNCIONALES (CON SUBMENÚ)** --}}
                         <li class="nav-item dropend">
                             <a class="dropdown-item dropdown-toggle" href="#" id="submenuNiveles" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                ✨ 3. Niveles Funcionales
+                                Niveles Funcionales
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="submenuNiveles">
                                 <li><h6 class="dropdown-header">Gestionar Niveles Funcionales</h6></li>
@@ -54,7 +50,7 @@
                         {{-- **OPCIÓN 4: TIPOS (CON SUBMENÚ)** --}}
                         <li class="nav-item dropend">
                             <a class="dropdown-item dropdown-toggle" href="#" id="submenuTipos" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                🏷️ 4. Tipos
+                                Tipos
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="submenuTipos">
                                 <li><h6 class="dropdown-header">Gestionar Tipos</h6></li>
@@ -76,7 +72,7 @@
                         {{-- **OPCIÓN 5: PROFESIONES/CARGOS (CON SUBMENÚ)** --}}
                         <li class="nav-item dropend">
                             <a class="dropdown-item dropdown-toggle" href="#" id="submenuProfesiones" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                🧑‍💼 5. Prof. - Cargos - Cat.
+                                Prof. - Cargos - Cat.
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="submenuProfesiones">
                                 <li><h6 class="dropdown-header">Profesiones y Cargos</h6></li>
@@ -86,6 +82,9 @@
                                 <li><a class="dropdown-item" href="{{ route('categorias.index') }}">Categorias</a></li>
                             </ul>
                         </li>
+
+                        {{-- SEPARADOR --}}
+                        <li><hr class="dropdown-divider"></li>
                         
                         {{-- Opción 6: Monedas --}}
                         <li><a class="dropdown-item" href="#">6. Monedas</a></li>
@@ -96,7 +95,7 @@
                         {{-- **OPCIÓN 7: BANCOS (CON SUBMENÚ)** --}}
                         <li class="nav-item dropend">
                             <a class="dropdown-item dropdown-toggle" href="#" id="submenuBancos" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                🏦 7. Bancos
+                                Bancos
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="submenuBancos">
                                 <li><h6 class="dropdown-header">Gestión de Grupos Bancarios</h6></li>
@@ -141,7 +140,7 @@
                     </ul>
                 </div>
                 {{-- FIN: MENÚ DE CONFIGURACIÓN --}}
-                <a class="navbar-brand" href="{{ url('/empleados') }}">
+                <a class="navbar-brand" href="{{ url('/') }}">
                     Proyecto Nómina
                 </a>
 

@@ -23,9 +23,14 @@ class TipoNominaController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'descripcion_nomina' => 'required|string|max:100',
-        ]);
+        // PASO 1: VALIDACIÓN MEJORADA
+    $request->validate([
+        // 'unique:tipo_nominas' le dice a Laravel que busque si ya existe ese valor en la tabla
+        'descripcion_nomina' => 'required|string|max:100|unique:tipo_nominas,descripcion_nomina',
+    ], [
+        // Opcional: Personalizar el mensaje de error
+        'descripcion_nomina.unique' => 'Ese tipo de nómina ya existe en nuestros registros.',
+    ]);
 
         TipoNomina::create($request->all());
 
@@ -39,24 +44,39 @@ class TipoNominaController extends Controller
         return view('tipos.edit_tipo_nomina', compact('tipoNomina'));
     }
 
-    public function update(Request $request, $id)
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(TipoNomina $tipoNomina)
+    {
+        return view('tipos.edit_tipo_nomina', compact('tipoNomina'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, TipoNomina $tipoNomina)
     {
         $request->validate([
-            'descripcion_nomina' => 'required|string|max:100',
-        ]);
+        // El tercer parámetro es el ID que debe ignorar
+        'descripcion_nomina' => 'required|string|max:100|unique:tipo_nominas,descripcion_nomina,' . $tipoNomina->id,
+    ], [
+        'descripcion_nomina.unique' => 'No puedes poner ese nombre porque ya pertenece a otra nómina.',
+    ]);
 
-        $tipoNomina = TipoNomina::findOrFail($id);
         $tipoNomina->update($request->all());
 
         return redirect()->route('tipo_nominas.index')
                          ->with('success', '¡Nómina actualizada con éxito!');
     }
 
-    public function destroy($id)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(TipoNomina $tipoNomina)
     {
-        $tipoNomina = TipoNomina::findOrFail($id);
         $tipoNomina->delete();
-
+        
         return redirect()->route('tipo_nominas.index')
                          ->with('success', '¡Nómina eliminada con éxito!');
     }
