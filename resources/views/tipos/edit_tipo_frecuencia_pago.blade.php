@@ -2,44 +2,29 @@
 
 @section('content')
 <div class="container">
-    <h1>Editar/Actualizar tipo de Frecuencia</h1>
-    
-    {{-- Botón de referencia a la otra vista --}}
-    <a href="{{ route('tipo_frecuencia_pagos.index') }}" class="btn btn-secondary mb-3">
-        Ver detalles de los acumulados
-    </a>
-
-    {{-- 
-        El action apunta a la ruta empleados.store (POST), que 
-        será el método para guardar los datos en la base de datos.
-    --}}
-    <form action="{{ route('tipo_frecuencia_pagos.update' , $tipoFrecuenciaPago) }}" method="POST">
-        @csrf {{-- ¡Directiva de seguridad obligatoria en Laravel! --}}
-        @method('PATCH')
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+    <div class="card shadow">
+        <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0">Modificando Frecuencia: {{ $tipoFrecuenciaPago->id }}</h5>
         </div>
-    @endif
+        <div class="card-body">
+            <form action="{{ route('tipo_frecuencia_pagos.update', $tipoFrecuenciaPago->id) }}" method="POST">
+                @csrf
+                @method('PUT')
 
-    @error('descripcion_tipo')
-        <div class="alert alert-danger">{{ $message }}</div>
-    @enderror
-
-
-        {{-- FILA 1: Nombre, Cédula, Sexo --}}
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <label for="nombre" class="form-label">Nueva Frecuencia:</label>
-                <input type="text" class="form-control" id="frecuencia" name="descripcion_frecuencia" required>
-            </div>  
+                <div class="row align-items-end">
+                    <div class="col-md-9 mb-3">
+                        <label for="descripcion_frecuencia" class="form-label">Descripción de la Frecuencia:</label>
+                        <input type="text" class="form-control" id="descripcion_frecuencia" name="descripcion_frecuencia" value="{{ $tipoFrecuenciaPago->descripcion_frecuencia }}" required>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success w-100">Actualizar</button>
+                            <a href="{{ route('tipo_frecuencia_pagos.index') }}" class="btn btn-secondary w-100">Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-        <button type="submit" class="btn btn-primary mt-4">Guardar Frecuancia</button>
-    </form>
+    </div>
 </div>
 @endsection

@@ -2,17 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>Nuevo tipo de nomina</h1>
-    
-    {{-- Botón de referencia a la otra vista --}}
-    <a href="{{ route('tipo_nominas.index') }}" class="btn btn-secondary mb-3">
-        Ver tipos de nomina
-    </a>
-
-    {{-- 
-        El action apunta a la ruta empleados.store (POST), que 
-        será el método para guardar los datos en la base de datos.
-    --}}
+    <h2>Registrar Nueva Nómina</h2>
     <form action="{{ route('tipo_nominas.store') }}" method="POST">
         @csrf {{-- ¡Directiva de seguridad obligatoria en Laravel! --}}
 
@@ -35,7 +25,8 @@
                 @enderror
             </div>
         </div>
-        <button type="submit" class="btn btn-primary mt-4">Guardar Nomina</button>
+        <button type="submit" class="btn btn-primary">Registrar</button>
+        <a href="{{ route('tipo_nominas.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 @endsection

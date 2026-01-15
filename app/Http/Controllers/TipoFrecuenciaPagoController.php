@@ -13,13 +13,9 @@ class TipoFrecuenciaPagoController extends Controller
     public function index()
     {
         $frecuenciaPago = TipoFrecuenciaPago::all();
-
         return view('tipos.show_tipo_frecuencia_pago' , compact('frecuenciaPago'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('tipos.tipo_frecuencia_pago');

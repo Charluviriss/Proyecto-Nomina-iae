@@ -1,40 +1,30 @@
-@extends('layouts.app')
+@extends('layouts.app') 
 
 @section('content')
-<div class="container mt-5">
-    <div class="card shadow-sm">
+<div class="container">
+    <div class="card shadow">
         <div class="card-header bg-warning text-dark">
-            <h4>Modificar Tipo de Aumento: {{ $tipoAumento->tipo }}</h4>
+            <h5 class="mb-0">Modificando Tipo de Aumento: {{ $tipoAumento->tipo }}</h5>
         </div>
         <div class="card-body">
             <form action="{{ route('tipo_Aumentos.update', $tipoAumento->id) }}" method="POST">
                 @csrf
-                @method('PUT') 
+                @method('PUT')
 
-                {{-- Campo Tipo (antes Código) --}}
-                <div class="mb-3">
-                    <label for="tipo" class="form-label">Tipo:</label>
-                    {{-- El campo Tipo se mantiene visible, pero puede ser de solo lectura si así lo requiere la lógica de negocio --}}
-                    <input type="text" class="form-control @error('tipo') is-invalid @enderror" id="tipo" name="tipo" 
-                           value="{{ old('tipo', $tipoAumento->tipo) }}" required maxlength="50">
-                    @error('tipo')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="tipo" class="form-label">Tipo (Código):</label>
+                        <input type="text" class="form-control" id="tipo" name="tipo" value="{{ $tipoAumento->tipo }}" required>
+                    </div>
+                    <div class="col-md-8 mb-3">
+                        <label for="descripcion" class="form-label">Descripción:</label>
+                        <input type="text" class="form-control" id="descripcion" name="descripcion" value="{{ $tipoAumento->descripcion }}" required>
+                    </div>
                 </div>
 
-                {{-- Campo Descripción --}}
-                <div class="mb-3">
-                    <label for="descripcion" class="form-label">Descripción:</label>
-                    <input type="text" class="form-control @error('descripcion') is-invalid @enderror" id="descripcion" name="descripcion" 
-                           value="{{ old('descripcion', $tipoAumento->descripcion) }}" required>
-                    @error('descripcion')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-                
-                <div class="d-flex justify-content-start pt-3">
-                    <button type="submit" class="btn btn-success me-2">Guardar Cambios</button>
-                    <a href="{{ route('tipo_Aumentos.index') }}" class="btn btn-secondary">Cancelar/Cerrar</a>
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <button type="submit" class="btn btn-success px-4">Actualizar Registro</button>
+                    <a href="{{ route('tipo_Aumentos.index') }}" class="btn btn-secondary px-4">Cancelar</a>
                 </div>
             </form>
         </div>

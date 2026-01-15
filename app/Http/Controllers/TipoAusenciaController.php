@@ -27,13 +27,13 @@ class TipoAusenciaController extends Controller
             'descripcion' => 'required',
         ]);
         TipoAusencia::create($request->all());
-        return redirect()->route('tipos.tipo_ausencia.index');
+        return redirect()->route('tipo_ausencia.index')->with('success', 'Tipo de ausencia registrado');
     }
 
     public function show($id)
     {
         $tipo = TipoAusencia::findOrFail($id);
-        return view('tipos.show_tipo_ausencia', compact('tipo'));
+        return view('tipos.tipo_ausencia', compact('tipo'));
     }
 
     public function edit($id)
@@ -50,13 +50,13 @@ class TipoAusenciaController extends Controller
             'descripcion' => 'required',
         ]);
         $tipo->update($request->all());
-        return redirect()->route('tipo_ausencia.index');
+        return redirect()->route('tipo_ausencia.index')->with('success', 'Tipo de ausencia actualizado');
     }
 
     public function destroy($id)
     {
         $tipo = TipoAusencia::findOrFail($id);
         $tipo->delete();
-        return redirect()->route('tipo_ausencia.index');
+        return redirect()->route('tipo_ausencia.index')->with('success', 'Tipo de ausencia eliminado');
     }
 }

@@ -105,8 +105,27 @@
                             </ul>
                         </li>
 
-                        {{-- Opción 8: Países --}}
-                        <li><a class="dropdown-item" href="#">8. Países</a></li>
+                        {{-- SEPARADOR --}}
+                        <li><hr class="dropdown-divider"></li>
+
+                        {{-- **OPCIÓN 8: FORMULACIÓN DE CONCEPTOS (CON SUBMENÚ)** --}}
+                        <li class="nav-item dropend">
+                            <a class="dropdown-item dropdown-toggle" href="#" id="submenuFormulacion" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                📝 8. Formulación de Conceptos
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="submenuFormulacion">
+                                <li><h6 class="dropdown-header">Configuración de Conceptos</h6></li>
+                                <li><a class="dropdown-item" href="{{ route('Formulacion_Conceptos.index') }}">Baremos (Tablas Escalares)</a></li>
+                                <li><a class="dropdown-item" href="{{ route('tablas_auxiliares.index') }}">Tablas Auxiliares para Constantes</a></li>
+                                <li><a class="dropdown-item" href="{{ route('adicionales_personal.index') }}">Adicionales Personal (Constantes)</a></li>
+                                <li><a class="dropdown-item" href="{{ route('adicionales_conceptos.index') }}">Adicionales Conceptos (Constantes)</a></li>
+                                <li><a class="dropdown-item" href="{{ route('conceptos_nomina.index') }}">Conceptos de Nómina de Pago</a></li>
+                                <li><a class="dropdown-item" href="{{ route('constantes_formulas.index') }}">Constantes de Formulas</a></li>
+                            </ul>
+                        </li>
+
+                        {{-- Opción 9: Países --}}
+                        <li><a class="dropdown-item" href="#">9. Países</a></li>
                         
                         {{-- Opción 9: Ciudades --}}
                         <li><a class="dropdown-item" href="#">9. Ciudades</a></li>
