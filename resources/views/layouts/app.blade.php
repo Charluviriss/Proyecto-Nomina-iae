@@ -62,6 +62,7 @@
                                 <li><a class="dropdown-item" href="{{ route('tipo_Aumentos.index') }}">Tipo de Aumentos</a></li>
                                 <li><a class="dropdown-item" href="{{ route('Guarderias.index') }}">Tipo de Guarderias</a></li>
                                 <li><a class="dropdown-item" href="{{ route('tipo_Liquidacion.index') }}">Tipo de Liquidaciones</a></li>
+                                <li><a class="dropdown-item" href="{{ route('tipo_parentesco.index') }}">Tipo de Parentescos</a>
                                 <li><a class="dropdown-item" href="{{ route('tipo_ausencias.index') }}">Tipo de Ausencias</a></li>
                             </ul>
                         </li>
