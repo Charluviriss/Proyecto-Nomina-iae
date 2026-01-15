@@ -27,10 +27,10 @@
             {{-- SEPARADOR --}}
             <li><hr class="dropdown-divider"></li>
             
-            {{-- **OPCIÓN 2: Niveles Funcionales (CON SUBMENÚ DESPLEGABLE)** --}}
+            {{--  Niveles Funcionales (CON SUBMENÚ DESPLEGABLE)--}}
             <li class="nav-item dropend">
                 <a class="dropdown-item dropdown-toggle" href="#" id="submenuTipos" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    ✨ **2. Niveles Funcionales**
+                     Niveles Funcionales
                 </a>
                 {{-- Contenedor del Submenú --}}
                 <ul class="dropdown-menu" aria-labelledby="submenuTipos">
@@ -64,7 +64,7 @@
                     <li><a class="dropdown-item" href="{{ route('tipo_Aumentos.index') }}">Tipo de Aumentos</a></li>
                     <li><a class="dropdown-item" href="{{ route('Guarderias.index') }}">Tipo de Guarderias</a></li>
                     <li><a class="dropdown-item" href="{{ route('tipo_Liquidacion.index') }}">Tipo de Liquidaciones</a></li>
-                    <li><a class="dropdown-item" href="{{ route('tipo_ausencias.index') }}">Tipo de Ausencias</a></li>
+                    <li><a class="dropdown-item" href="{{ route('tipo_parentesco.index') }}">Tipo de Parentescos</a></li>
                 </ul>
             </li>
 
@@ -98,12 +98,26 @@
         
     </ul>
 </li>
-            <li><a class="dropdown-item" href="#">Opción 6: Puestos</a></li>
-            <li><a class="dropdown-item" href="#">Opción 7: Países</a></li>
-            <li><a class="dropdown-item" href="#">Opción 8: Ciudades</a></li>
-            <li><a class="dropdown-item" href="#">Opción 9: Permisos</a></li>
-            <li><a class="dropdown-item" href="#">Opción 10: Logs</a></li>
-        </ul>
+
+            {{-- SEPARADOR --}}
+           <li><hr class="dropdown-divider"></li>
+            
+            {{-- OPCIÓN 6: Profesiones – Cargos - Catgorias (CON SUBMENÚ DESPLEGABLE)** --}}
+            <li class="nav-item dropend">
+                <a class="dropdown-item dropdown-toggle" href="#" id="submenuTipos" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                     Profesiones – Cargos - Catgorias
+                </a>
+                {{-- Contenedor del Submenú --}}
+                <ul class="dropdown-menu" aria-labelledby="submenuTipos">
+                    {{-- Rutas Solicitadas --}}
+                    <li><h6 class="dropdown-header"> Gestionar profesiones – cargos - catgorias </h6></li>
+                    <li><a class="dropdown-item" href="{{ route('profesiones_o_ocupaciones.index') }}"> Profesiones o ocupaciones</a></li>
+                    <li><a class="dropdown-item" href="{{ route('cargos.index') }}"> Cargos</a></li>
+                    <li><a class="dropdown-item" href="{{ route('categorias.index') }}">Tabulaciones para categorias</a></li>
+                    
+                </ul>
+           </li>
+
     </div>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">

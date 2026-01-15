@@ -10,6 +10,14 @@ use App\Http\Controllers\TipoAumentoController;
 use App\Http\Controllers\GuarderiaController;
 use App\Http\Controllers\TipoLiquidacionController;
 use App\Http\Controllers\TipoAusenciaController;
+use App\Http\Controllers\TipoParentescoController;
+
+// profesiones -campos -categorias//
+use App\Http\Controllers\ProfesionesController;
+use App\Http\Controllers\CargoController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\CategoriController;
+
 /// niveles funcionales//
 use App\Http\Controllers\PresupuestoController;
 use App\Http\Controllers\DireccionController;
@@ -45,6 +53,8 @@ Route::resource('tipo_acumulados' , TipoAcumuladosController::class);
 
 Route::resource('tipo_ausencias', TipoAusenciaController::class);
 
+Route::resource('tipo_parentesco', TipoParentescoController::class);
+
 // Ejemplo usando Resource (Recomendado)
 Route::resource('tipo_prestamos', TipoPrestamoController::class);
 
@@ -74,3 +84,9 @@ Route::resource('bancos', BancoController::class);
 
 // Usando la ruta 'tasas_interes' para el recurso
 Route::resource('tasas_interes', TasaInteresController::class);
+
+// rutas del campo profesiones – cargos - catgorias//
+Route::resource('profesiones_o_ocupaciones', ProfesionesController::class);
+Route::resource('cargos', CargoController::class);
+Route::resource('categorias', CategoriaController::class);
+Route::resource('categori', CategoriaController::class);
