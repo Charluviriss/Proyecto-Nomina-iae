@@ -7,31 +7,51 @@ use Illuminate\Database\Eloquent\Model;
 
 class Empleado extends Model
 {
-    use HasFactory;
+use HasFactory;
 
-    // Nombre de la tabla
-    protected $table = 'empleado'; 
+    // Nombre de la tabla (opcional si es el plural en inglés, pero bueno ponerlo)
+    protected $table = 'empleados';
 
-    // Clave primaria
-    protected $primaryKey = 'id_empleado'; 
+    // Campos que se pueden llenar masivamente
+    protected $guarded = [];
 
-    // Campos que se pueden asignar masivamente (para cuando implementes el método store)
-    protected $fillable = [
-        'nombre',
-        'id_cedula', 
-        'sexo', 
-        'fecha_nacimiento', 
-        'lugar_nacimiento', 
-        'telefono', 
-        'profesion', 
-        'direccion', 
-        'email', 
-        'ficha', 
-        'situacion', 
-        'salario_base'
-    ];
-    
-    // Indicamos que no usamos las marcas de tiempo por defecto (created_at, updated_at)
-    // Si tu tabla no las tiene, debes incluir esta línea:
-    public $timestamps = false; 
+    /**
+     * RELACIONES (Tablas de Configuración)
+     */
+
+    public function Profesiones() {
+        return $this->belongsTo(Profesiones::class);
+    }
+
+    public function grupoBanco() {
+        return $this->belongsTo(GrupoBanco::class, 'grupo_banco_id');
+    }
+
+    public function bancoAuxiliar() {
+        return $this->belongsTo(GrupoBanco::class, 'banco_auxiliar_id');
+    }
+
+    public function tipoNomina() {
+        return $this->belongsTo(TipoNomina::class, 'tipo_nomina_id');
+    }
+
+    public function cargo() {
+        return $this->belongsTo(Cargo::class);
+    }
+
+    public function departamento() {
+        return $this->belongsTo(Departamento::class);
+    }
+
+    public function direccion() {
+        return $this->belongsTo(Direccion::class, 'direccion_id');
+    }
+
+    public function categoria() {
+        return $this->belongsTo(Categoria::class);
+    }
+
+    public function presupuesto() {
+        return $this->belongsTo(Presupuesto::class);
+    }
 }

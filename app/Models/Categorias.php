@@ -15,4 +15,9 @@ class Categorias extends Model
     protected $primarykey = 'id';
 
     protected $fillable = ['descripcion'];
+
+    // Una categoria puede tener muchos empleados
+    public function empleados() {
+        return $this->hasMany(Empleado::class);
+    }
 }
