@@ -22,5 +22,10 @@ class TipoNomina extends Model
     // Indicamos que no usamos las marcas de tiempo por defecto (created_at, updated_at)
     // Si tu tabla no las tiene, debes incluir esta línea:
     //public $timestamps = false; 
+
+    // Una nomina puede tener muchos empleados
+    public function empleados() {
+        return $this->hasMany(Empleado::class);
+    }
 }
 

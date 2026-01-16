@@ -87,11 +87,11 @@
                         {{-- SEPARADOR --}}
                         <li><hr class="dropdown-divider"></li>
                         
-                        {{-- Opción 6: Monedas --}}
+                        <!--{{-- Opción 6: Monedas --}}
                         <li><a class="dropdown-item" href="#">6. Monedas</a></li>
                         
                         {{-- SEPARADOR --}}
-                        <li><hr class="dropdown-divider"></li>
+                        <li><hr class="dropdown-divider"></li-->
                         
                         {{-- **OPCIÓN 7: BANCOS (CON SUBMENÚ)** --}}
                         <li class="nav-item dropend">
@@ -112,7 +112,7 @@
                         {{-- **OPCIÓN 8: FORMULACIÓN DE CONCEPTOS (CON SUBMENÚ)** --}}
                         <li class="nav-item dropend">
                             <a class="dropdown-item dropdown-toggle" href="#" id="submenuFormulacion" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                📝 8. Formulación de Conceptos
+                                Formulación de Conceptos
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="submenuFormulacion">
                                 <li><h6 class="dropdown-header">Configuración de Conceptos</h6></li>
@@ -124,6 +124,9 @@
                                 <li><a class="dropdown-item" href="{{ route('constantes_formulas.index') }}">Constantes de Formulas</a></li>
                             </ul>
                         </li>
+
+                        {{-- SEPARADOR --}}
+                        <li><hr class="dropdown-divider"></li>
 
                         {{-- Opción 9: Países --}}
                         <li><a class="dropdown-item" href="#">9. Países</a></li>
