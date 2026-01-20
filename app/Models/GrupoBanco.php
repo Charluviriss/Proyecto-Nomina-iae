@@ -21,4 +21,9 @@ class GrupoBanco extends Model
         'texto_inicial_carta', 
         'texto_final_carta'
     ];
+
+    // Un grupo banco puede tener muchos empleados
+    public function empleados() {
+        return $this->hasMany(Empleado::class);
+    }
 }
