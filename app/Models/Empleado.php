@@ -36,7 +36,7 @@ use HasFactory;
     }
 
     public function cargo() {
-        return $this->belongsTo(Cargo::class);
+        return $this->belongsTo(Cargos::class);
     }
 
     public function departamento() {

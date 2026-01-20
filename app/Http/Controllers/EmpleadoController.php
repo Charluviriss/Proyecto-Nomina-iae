@@ -71,19 +71,17 @@ class EmpleadoController extends Controller
      */
     public function store(Request $request)
     {
-        // 1. Validación básica (solo lo mínimo indispensable para no romper la BD)
-        // El resto de los campos los dejamos libres como pediste.
+        // 1. Validación: Asegúrate de que los nombres coincidan con los 'name' de los inputs
         $request->validate([
             'cedula' => 'required|unique:empleados,cedula',
             'apellidos' => 'required',
             'nombres' => 'required',
-            'email' => 'nullable|email|unique:empleados,email',
+            'ficha_Empleado' => 'required|unique:empleados,ficha_Empleado', // Obligatorio por tu migración
+            
         ]);
 
-        // 2. Creación del registro
-        // Usamos $request->all() porque en el modelo pusimos protected $guarded = [];
-        // Esto permite que Laravel asocie cada nombre del input con la columna de la BD.
         try {
+            // Usamos el modelo con los nombres exactos de la MIGRACIÓN
             Empleado::create([
                 'Nacionalidad'      => $request->Nacionalidad,
                 'cedula'            => $request->cedula,
@@ -96,18 +94,18 @@ class EmpleadoController extends Controller
                 'direccion'         => $request->direccion,
                 'telefono'          => $request->telefono,
                 'email'             => $request->email,
-                'situacion_Laboal'  => $request->situacion_Laboal ?? 'Nuevo',
-                'foto_empleado'     => null, // Por ahora lo dejamos vacío
+                // CORRECCIÓN AQUÍ: nombre exacto de la tabla
+                'situacion_laboral' => $request->situacion_Laboal ?? 'Nuevo', 
                 
                 'ficha_Empleado'    => $request->ficha_Empleado,
                 'fecha_ingreso'     => $request->fecha_ingreso,
                 'prestaciones'      => $request->prestaciones,
                 'tipo_cobro'        => $request->tipo_cobro,
-                'banco_id'          => $request->banco_id,
+                'grupo_banco_id'    => $request->banco_id, // Cambiado para coincidir con tu migración
                 'numero_cuenta'     => $request->numero_cuenta,
-                'banco_auxiliar_id' => $request->banco_auxiliar_id,
+                'grupo_banco_auxiliar_id' => $request->banco_auxiliar_id, // Cambiado
                 'numero_cuenta_auxiliar' => $request->numero_cuenta_auxiliar,
-                'tipo_contrato'     => $request->tipo_contrato,
+                'tipo_contrato'     => $request->tipo_contrato ?? 'Fijo',
                 'Salario'           => $request->Salario ?? 0,
 
                 'tipo_nomina_id'    => $request->tipo_nomina_id,
@@ -118,12 +116,11 @@ class EmpleadoController extends Controller
                 'cargo_id'          => $request->cargo_id,
             ]);
 
-            return redirect()->route('empleados.index')
-                            ->with('success', 'Empleado guardado correctamente.');
+            return redirect()->route('empleados.index')->with('success', 'Empleado creado');
 
         } catch (\Exception $e) {
-            // En caso de error (por ejemplo, una llave foránea que no existe)
-            return back()->withInput()->with('error', 'Error al guardar: ' . $e->getMessage());
+            // IMPORTANTE: Esto te mostrará el error real en pantalla si algo falla
+            return back()->withErrors(['db_error' => $e->getMessage()])->withInput();
         }
     }
 
@@ -134,7 +131,19 @@ class EmpleadoController extends Controller
     public function edit($id)
     {
         $empleado = Empleado::findOrFail($id);
-        return view('empleados.edit_empleado', compact('empleado'));
+    
+        // Necesitamos cargar todas las listas de nuevo para los selects
+        $profesiones = Profesiones::all();
+        $cargos = Cargos::all();
+        $departamentos = Departamento::all();
+        $tipo_nominas = TipoNomina::all();
+        $presupuestos = Presupuesto::all();
+        $direcciones = Direcciones::all();
+        $grupo_bancos = GrupoBanco::all();
+        $categorias = Categorias::all();
+        // ... carga aquí el resto (departamentos, nóminas, etc.)
+
+        return view('empleados.edit_empleado', compact('empleado', 'profesiones', 'cargos', 'departamentos', 'tipo_nominas', 'presupuestos', 'direcciones', 'grupo_bancos', 'categorias'));
     }
 
     /**
@@ -143,8 +152,38 @@ class EmpleadoController extends Controller
     public function update(Request $request, $id)
     {
         $empleado = Empleado::findOrFail($id);
-        $empleado->update($request->all());
-        return redirect()->route('empleados.index')->with('success', 'Datos actualizados');
+
+        // Usamos la misma lógica que en el store para asegurar los nombres de las columnas
+        $empleado->update([
+            'Nacionalidad' => $request->Nacionalidad,
+            'cedula' => $request->cedula,
+            'apellidos' => $request->apellidos,
+            'nombres' => $request->nombres,
+            'sexo' => $request->sexo,
+            'fecha_nacimiento' => $request->fecha_nacimiento,
+            'lugar' => $request->lugar,
+            'profesion_id' => $request->profesion_id,
+            'direccion' => $request->direccion,
+            'telefono' => $request->telefono,
+            'email' => $request->email,
+            'situacion_laboral' => $request->situacion_laboral,
+            'ficha_Empleado' => $request->ficha_Empleado,
+            'fecha_ingreso' => $request->fecha_ingreso,
+            'prestaciones' => $request->prestaciones,
+            'tipo_cobro' => $request->tipo_cobro,
+            'grupo_banco_id' => $request->grupo_banco_id,
+            'numero_cuenta' => $request->numero_cuenta,
+            'tipo_contrato' => $request->tipo_contrato,
+            'Salario' => $request->Salario,
+            'tipo_nomina_id' => $request->tipo_nomina_id,
+            'presupuesto_id' => $request->presupuesto_id,
+            'direccion_id' => $request->direccion_id,
+            'departamento_id' => $request->departamento_id,
+            'categoria_id' => $request->categoria_id,
+            'cargo_id' => $request->cargo_id,
+        ]);
+
+        return redirect()->route('empleados.index')->with('success', 'Empleado actualizado correctamente');
     }
 
     /**
@@ -154,6 +193,7 @@ class EmpleadoController extends Controller
     {
         $empleado = Empleado::findOrFail($id);
         $empleado->delete();
-        return redirect()->route('empleados.index');
+
+        return redirect()->route('empleados.index')->with('success', 'Empleado eliminado');
     }
 }
