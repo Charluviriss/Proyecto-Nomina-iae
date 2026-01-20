@@ -30,7 +30,11 @@ class TipoFrecuenciaPagoController extends Controller
             'descripcion_frecuencia' => 'required|string|max:100',
         ]);
 
-        TipoFrecuenciaPago::create($request->all());
+        $frecuencia = TipoFrecuenciaPago::create($request->all());
+
+        if ($request->wantsJson()) {
+            return response()->json($frecuencia);
+        }
 
         return redirect()->route('tipo_frecuencia_pagos.index')
                          ->with('success', '¡frecuencia registrada con éxito!');
