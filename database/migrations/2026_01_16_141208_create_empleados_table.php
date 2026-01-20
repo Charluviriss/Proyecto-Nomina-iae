@@ -20,9 +20,9 @@ return new class extends Migration
             $table->enum('sexo', ['Masculino', 'Femenino', 'Otro'])->nullable();
             $table->date('fecha_nacimiento')->nullable();
             $table->string('lugar', 100)->nullable();
-            $table->foreignId('profesion_id')
+            $table->foreignId('profesion_id')->nullable()
                   ->constrained('profesiones')
-                  ->onDelete('cascade')->nullable();
+                  ->onDelete('cascade');
             $table->string('direccion', 255)->nullable();
             $table->string('telefono', 20)->nullable();
             $table->string('email', 100)->unique()->nullable();
@@ -35,37 +35,37 @@ return new class extends Migration
             $table->date('fecha_ingreso')->nullable();
             $table->enum('prestaciones', ['Fideicomiso', 'Fondo', 'Contabilidad'])->nullable();
             $table->enum('tipo_cobro', ['Efectivo', 'Cheque', 'Deposito Ahorro', 'Deposito Cta. Corriente', 'Deposito F.A.L.'])->nullable();
-            $table->foreignId('grupo_banco_id')
+            $table->foreignId('grupo_banco_id')->nullable()
                   ->constrained('grupos_bancos')
-                  ->onDelete('cascade')->nullable();
+                  ->onDelete('cascade');
             $table->string('numero_cuenta', 30)->nullable();//
-            $table->foreignId('grupo_banco_auxiliar_id')
+            $table->foreignId('grupo_banco_auxiliar_id')->nullable()
                   ->constrained('grupos_bancos')
-                  ->onDelete('cascade')->nullable();
+                  ->onDelete('cascade');
             $table->string('numero_cuenta_auxiliar', 30)->nullable();//
             $table->enum('tipo_contrato', ['Fijo', 'Temporal', 'Contratado', 'Pasante']);
             $table->string('Salario', 30)->nullable();
 
 
 
-            $table->foreignId('tipo_nomina_id')
+            $table->foreignId('tipo_nomina_id')->nullable()
                   ->constrained('tipo_nominas')
-                  ->onDelete('cascade')->nullable();
-            $table->foreignId('presupuesto_id')
+                  ->onDelete('cascade');
+            $table->foreignId('presupuesto_id')->nullable()
                   ->constrained('presupuestos')
-                  ->onDelete('cascade')->nullable();
-            $table->foreignId('direccion_id')
+                  ->onDelete('cascade');
+            $table->foreignId('direccion_id')->nullable()
                   ->constrained('direcciones')
-                  ->onDelete('cascade')->nullable();
-            $table->foreignId('departamento_id')
+                  ->onDelete('cascade');
+            $table->foreignId('departamento_id')->nullable()
                   ->constrained('departamentos')
-                  ->onDelete('cascade')->nullable();
-            $table->foreignId('categoria_id')
+                  ->onDelete('cascade');
+            $table->foreignId('categoria_id')->nullable()
                   ->constrained('categorias')
-                  ->onDelete('cascade')->nullable();
-            $table->foreignId('cargo_id')
+                  ->onDelete('cascade');
+            $table->foreignId('cargo_id')->nullable()
                   ->constrained('cargos')
-                  ->onDelete('cascade')->nullable();
+                  ->onDelete('cascade');
 
             $table->timestamps();
         });

@@ -2,6 +2,11 @@
 
 @section('content')
 <div class="container-fluid mt-3">
+    {{-- Alertas de éxito (Para cuando borres o actualices) --}}
+    @if(session('success'))
+        <div class="alert alert-success py-1 px-3 small">{{ session('success') }}</div>
+    @endif
+
     <div class="card shadow-sm" style="background-color: #f0f0f0;">
         <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
             <h6 class="mb-0">Datos Básicos del Personal</h6>
@@ -9,16 +14,15 @@
         </div>
 
         <div class="card-body p-2">
+            {{-- Tabs de Situación --}}
             <ul class="nav nav-tabs mb-2" id="situacionTabs" role="tablist">
                 @php
                     $estados = ['Activos', 'Nuevos', 'Suspendidos', 'Vacaciones', 'Jubilados', 'Retirados (Inactivos)'];
-                    // Ajustamos el nombre para que coincida con lo que espera el controlador
                     $situacionActual = request('situacion', 'Activo');
                 @endphp
 
                 @foreach($estados as $estado)
                     @php 
-                        // Mapeo simple para que el filtro funcione con tu Enum
                         $valorFiltro = str_contains($estado, 'Retirados') ? 'Inactivo' : rtrim($estado, 's');
                         $isActive = ($situacionActual == $valorFiltro);
                     @endphp
@@ -31,6 +35,7 @@
                 @endforeach
             </ul>
 
+            {{-- Tabla de Empleados --}}
             <div class="table-responsive" style="height: 400px; overflow-y: auto; background-color: white;">
                 <table class="table table-bordered table-sm table-hover mb-0">
                     <thead class="table-dark">
@@ -47,7 +52,7 @@
                                 <td>{{ number_format($emp->cedula, 0, ',', '.') }}</td>
                                 <td>{{ $emp->ficha_Empleado }}</td>
                                 <td>{{ $emp->apellidos }}, {{ $emp->nombres }}</td>
-                                <td class="text-center">{{ $emp->situacion_Laboal }}</td>
+                                <td class="text-center">{{ $emp->situacion_laboral }}</td>
                             </tr>
                         @empty
                             <tr>
@@ -58,15 +63,12 @@
                 </table>
             </div>
 
+            {{-- Buscador y Footer --}}
             <div class="mt-3 p-2 border rounded bg-light">
                 <div class="row align-items-center">
                     <div class="col-md-8">
                         <div class="d-flex align-items-center">
-                            <span class="me-3 small fw-bold">F2 Buscary ordenar</span>
-                            <div class="form-check form-check-inline small">
-                                <input class="form-check-input" type="radio" name="order" id="r1" checked>
-                                <label class="form-check-label" for="r1">Apellidos y Nombres</label>
-                            </div>
+                            <span class="me-3 small fw-bold">F2 Buscar y ordenar</span>
                             <input type="text" class="form-control form-control-sm w-50" placeholder="Escriba para filtrar...">
                         </div>
                     </div>
@@ -76,47 +78,61 @@
                     </div>
                 </div>
 
+                {{-- BOTONES DE ACCIÓN --}}
                 <div class="mt-3 d-flex justify-content-end">
                     <a href="{{ route('empleados.create') }}" class="btn btn-sm btn-outline-primary me-2">
-                        <img src="https://cdn-icons-png.flaticon.com/16/10/10522.png" class="me-1"> Agregar
+                        Agregar
                     </a>
                     
+                    {{-- Botón Modificar: El script le dará la funcionalidad --}}
                     <button id="btnModificar" class="btn btn-sm btn-outline-primary me-2" disabled>
-                        <img src="https://cdn-icons-png.flaticon.com/16/1159/1159633.png" class="me-1"> Modificar
+                        Modificar
                     </button>
 
-                    <button id="btnBorrar" class="btn btn-sm btn-outline-dark me-2" disabled>
-                        <img src="https://cdn-icons-png.flaticon.com/16/1214/1214428.png" class="me-1"> Borrar
-                    </button>
+                    {{-- Formulario oculto para borrar --}}
+                    <form id="formBorrar" action="" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" id="btnBorrar" class="btn btn-sm btn-outline-dark me-2" disabled 
+                                onclick="confirmarBorrado()">
+                            Borrar
+                        </button>
+                    </form>
 
-                    <button class="btn btn-sm btn-outline-dark">
-                        <img src="https://cdn-icons-png.flaticon.com/16/1828/1828445.png" class="me-1"> Cerrar
-                    </button>
+                    <a href="/" class="btn btn-sm btn-outline-dark">Cerrar</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-{{-- Script simple para manejar la selección de empleados --}}
 <script>
     let empleadoSeleccionado = null;
 
     function seleccionarFila(fila, id) {
-        // Quitar selección previa
+        // Estilo visual
         document.querySelectorAll('tr').forEach(tr => tr.classList.remove('table-primary'));
-        // Marcar nueva fila
         fila.classList.add('table-primary');
+        
         empleadoSeleccionado = id;
 
         // Activar botones
         document.getElementById('btnModificar').disabled = false;
         document.getElementById('btnBorrar').disabled = false;
 
-        // Configurar enlace de modificar
+        // Configurar acción de Modificar
         document.getElementById('btnModificar').onclick = function() {
             window.location.href = `/empleados/${id}/edit`;
         };
+
+        // Configurar URL del formulario de Borrar
+        document.getElementById('formBorrar').action = `/empleados/${id}`;
+    }
+
+    function confirmarBorrado() {
+        if (confirm('¿Está seguro de que desea eliminar este registro?')) {
+            document.getElementById('formBorrar').submit();
+        }
     }
 </script>
 
