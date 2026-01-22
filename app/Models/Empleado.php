@@ -44,7 +44,7 @@ use HasFactory;
     }
 
     public function direccion() {
-        return $this->belongsTo(Direccion::class, 'direccion_id');
+        return $this->belongsTo(Direcciones::class, 'direccion_id');
     }
 
     public function categoria() {
