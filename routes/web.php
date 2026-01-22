@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmpleadoController;
 
+//nominas
+use App\Http\Controllers\NominaController;
+
 //Rutas para Tipos
 use App\Http\Controllers\TipoNominaController;
 use App\Http\Controllers\TipoFrecuenciaPagoController;
@@ -108,3 +111,6 @@ Route::resource('constantes_formulas', ConstanteFormulaController::class);
 
 // Rutas para la empresa
 Route::resource('empresas', EmpresaController::class);
+
+//rutas para nominas
+Route::resource('nominas', NominaController::class);
