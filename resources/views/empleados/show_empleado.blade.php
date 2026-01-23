@@ -10,8 +10,13 @@
     <div class="card shadow-sm" style="background-color: #f0f0f0;">
         <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
             <h6 class="mb-0">Datos Básicos del Personal</h6>
-            <button class="btn btn-sm btn-light">X</button>
+            <!--button class="btn btn-sm btn-light">X</button-->
+
+            <a href="{{ url('/') }}" class="btn btn-dark btn-lm fw-bold">
+                <i class="fas fa-users"></i> Volver al inicio
+            </a>
         </div>
+        
 
         <div class="card-body p-2">
             {{-- Tabs de Situación --}}
@@ -68,8 +73,8 @@
                 <div class="row align-items-center">
                     <div class="col-md-8">
                         <div class="d-flex align-items-center">
-                            <span class="me-3 small fw-bold">F2 Buscar y ordenar</span>
-                            <input type="text" class="form-control form-control-sm w-50" placeholder="Escriba para filtrar...">
+                            <!--span class="me-3 small fw-bold">F2 Buscar y ordenar</span>
+                            <input type="text" class="form-control form-control-sm w-50" placeholder="Escriba para filtrar..."-->
                         </div>
                     </div>
                     <div class="col-md-4 text-end">

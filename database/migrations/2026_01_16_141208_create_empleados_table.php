@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('empleados', function (Blueprint $table) {
             $table->id();
+            $table->string('ficha_Empleado', 50)->unique();
             $table->enum('Nacionalidad', ['Venezolano', 'Extranjero'])->nullable();
             $table->string('cedula', 20)->unique()->nullable();
             $table->string('apellidos', 100)->nullable();
@@ -31,7 +32,7 @@ return new class extends Migration
 
 
 
-            $table->string('ficha_Empleado', 50)->unique();
+            
             $table->date('fecha_ingreso')->nullable();
             $table->enum('prestaciones', ['Fideicomiso', 'Fondo', 'Contabilidad'])->nullable();
             $table->enum('tipo_cobro', ['Efectivo', 'Cheque', 'Deposito Ahorro', 'Deposito Cta. Corriente', 'Deposito F.A.L.'])->nullable();

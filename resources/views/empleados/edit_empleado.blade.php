@@ -20,8 +20,8 @@
         <div class="card-body">
             <ul class="nav nav-tabs mb-3">
                 <li class="nav-item"><a class="nav-link active" href="#">Datos Generales</a></li>
-                <li class="nav-item"><a class="nav-link disabled" href="#">Constantes</a></li>
-                <li class="nav-item"><a class="nav-link disabled" href="#">Familiares</a></li>
+                <!--li class="nav-item"><a class="nav-link disabled" href="#">Constantes</a></li>
+                <li class="nav-item"><a class="nav-link disabled" href="#">Familiares</a></li-->
             </ul>
 
             {{-- CAMBIO: Ruta update y ID del empleado --}}
@@ -98,8 +98,8 @@
                     <div class="col-md-6 border p-3 bg-light rounded shadow-sm">
                         <div class="row">
                             <div class="col-md-6">
-                                <label>Ficha:</label>
-                                <input type="text" name="ficha_Empleado" class="form-control mb-2" value="{{ $empleado->ficha_Empleado }}">
+                                <label class="form-label text-muted">Ficha: (no editable)</label>
+                                <input type="text" name="ficha_Empleado" class="form-control bg-light text-muted" value="{{ $empleado->ficha_Empleado }}" readonly>
                             </div>
                             <div class="col-md-6">
                                 <label>Fecha Ingreso:</label>
