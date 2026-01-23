@@ -9,10 +9,9 @@ class Empleado extends Model
 {
 use HasFactory;
 
-    // Nombre de la tabla (opcional si es el plural en inglés, pero bueno ponerlo)
     protected $table = 'empleados';
 
-    // Campos que se pueden llenar masivamente
+    
     protected $guarded = [];
 
     /**

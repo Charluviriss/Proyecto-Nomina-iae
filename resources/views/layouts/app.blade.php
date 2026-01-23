@@ -23,6 +23,16 @@
                         Configuración
                     </button>
 
+                    {{-- Botón Empleados (Acceso Directo) --}}
+                    <a href="{{ route('empleados.index') }}" class="btn btn-dark btn-lm fw-bold">
+                        <i class="fas fa-users"></i> Empleados
+                    </a>
+
+                    {{-- Botón Nóminas (Acceso Directo) --}}
+                    <a href="{{ route('nominas.index') }}" class="btn btn-dark btn-lm fw-bold">
+                        <i class="fas fa-file-invoice-dollar"></i> Nóminas
+                    </a>
+
                     {{-- Contenedor principal del Menú (TODO debe ir aquí dentro) --}}
                     <ul class="dropdown-menu">
                         
@@ -126,7 +136,7 @@
                         </li>
 
                         {{-- SEPARADOR --}}
-                        <li><hr class="dropdown-divider"></li>
+                        <!--li><hr class="dropdown-divider"></li>
 
                         {{-- Opción 9: Países --}}
                         <li><a class="dropdown-item" href="#">9. Países</a></li>
@@ -135,17 +145,17 @@
                         <li><a class="dropdown-item" href="#">9. Ciudades</a></li>
                         
                         {{-- Opción 10: Permisos --}}
-                        <li><a class="dropdown-item" href="#">10. Permisos</a></li>
+                        <li><a class="dropdown-item" href="#">10. Permisos</a></li-->
                         
                         {{-- Opción 11 (Extra): Logs --}}
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Logs del Sistema</a></li>
+                        <li><a class="dropdown-item" href="{{ url('/') }}">Volver al inicio</a></li>
 
                     </ul>
                 </div>
                 {{-- FIN: MENÚ DE CONFIGURACIÓN --}}
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    Proyecto Nómina
+                    Nómina
                 </a>
 
             </div>

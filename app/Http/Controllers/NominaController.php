@@ -103,7 +103,10 @@ class NominaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // Cargamos la nómina con sus detalles y los empleados de esos detalles
+        $nomina = Nomina::with(['tipoNomina', 'detalles.empleado'])->findOrFail($id);
+
+        return view('nominas.show_detalles', compact('nomina'));
     }
 
     /**
