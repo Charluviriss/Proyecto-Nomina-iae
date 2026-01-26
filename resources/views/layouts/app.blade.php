@@ -24,6 +24,16 @@
                         Configuración
                     </button>
 
+                    {{-- Botón Empleados (Acceso Directo) --}}
+                    <a href="{{ route('empleados.index') }}" class="btn btn-dark btn-lm fw-bold">
+                        <i class="fas fa-users"></i> Empleados
+                    </a>
+
+                    {{-- Botón Nóminas (Acceso Directo) --}}
+                    <a href="{{ route('nominas.index') }}" class="btn btn-dark btn-lm fw-bold">
+                        <i class="fas fa-file-invoice-dollar"></i> Nóminas
+                    </a>
+
                     {{-- Contenedor principal del Menú (TODO debe ir aquí dentro) --}}
                     <ul class="dropdown-menu">
                         
@@ -141,7 +151,6 @@
                         
 
                         {{-- SEPARADOR --}}
-                        <li><hr class="dropdown-divider"></li>
 
                         {{-- Opción 10: Países --}}
                         <li><a class="dropdown-item" href="#"><i class="bi bi-globe-americas me-2"></i> Países</a></li>
@@ -155,13 +164,13 @@
                         {{-- Opción 12 (Extra): Logs --}}
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#"><i class="bi bi-journal-text me-2"></i> Logs del Sistema</a></li>
-
+                        <li><a class="dropdown-item" href="{{ url('/') }}"><i class="bi bi-house-door me-2"></i> Volver al inicio</a></li>
 
                     </ul>
                 </div>
                 {{-- FIN: MENÚ DE CONFIGURACIÓN --}}
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    Proyecto Nómina
+                    Nómina
                 </a>
 
             </div>

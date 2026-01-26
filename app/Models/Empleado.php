@@ -9,10 +9,9 @@ class Empleado extends Model
 {
 use HasFactory;
 
-    // Nombre de la tabla (opcional si es el plural en inglés, pero bueno ponerlo)
     protected $table = 'empleados';
 
-    // Campos que se pueden llenar masivamente
+    
     protected $guarded = [];
 
     /**
@@ -36,7 +35,7 @@ use HasFactory;
     }
 
     public function cargo() {
-        return $this->belongsTo(Cargo::class);
+        return $this->belongsTo(Cargos::class);
     }
 
     public function departamento() {
@@ -44,7 +43,7 @@ use HasFactory;
     }
 
     public function direccion() {
-        return $this->belongsTo(Direccion::class, 'direccion_id');
+        return $this->belongsTo(Direcciones::class, 'direccion_id');
     }
 
     public function categoria() {

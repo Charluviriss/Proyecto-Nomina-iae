@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmpleadoController;
 
+//nominas
+use App\Http\Controllers\NominaController;
+
 //Rutas para Tipos
 use App\Http\Controllers\TipoNominaController;
 use App\Http\Controllers\TipoFrecuenciaPagoController;
@@ -115,3 +118,6 @@ Route::get('/calendarios', [CalendarioController::class, 'index'])->name('calend
 Route::get('/calendarios/ver', [CalendarioController::class, 'showCalendar'])->name('calendarios.show');
 Route::get('/calendarios/personal', [CalendarioController::class, 'personal'])->name('calendarios.personal');
 Route::get('/calendarios/feriados', [CalendarioController::class, 'feriados'])->name('calendarios.feriados');
+
+//rutas para nominas
+Route::resource('nominas', NominaController::class);
