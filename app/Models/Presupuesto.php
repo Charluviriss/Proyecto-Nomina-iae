@@ -10,5 +10,10 @@ class Presupuesto extends Model
     use HasFactory;
 
     protected $fillable = ['codigo', 'descripcion'];
+
+    // Un presupuesto puede tener muchos empleados
+    public function empleados() {
+        return $this->hasMany(Empleado::class);
+    }
 }
 

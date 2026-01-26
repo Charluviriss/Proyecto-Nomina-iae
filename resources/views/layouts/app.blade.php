@@ -64,6 +64,7 @@
                                 <li><a class="dropdown-item" href="{{ route('tipo_Aumentos.index') }}">Tipo de Aumentos</a></li>
                                 <li><a class="dropdown-item" href="{{ route('Guarderias.index') }}">Tipo de Guarderias</a></li>
                                 <li><a class="dropdown-item" href="{{ route('tipo_Liquidacion.index') }}">Tipo de Liquidaciones</a></li>
+                                <li><a class="dropdown-item" href="{{ route('tipo_parentesco.index') }}">Tipo de Parentescos</a>
                                 <li><a class="dropdown-item" href="{{ route('tipo_ausencias.index') }}">Tipo de Ausencias</a></li>
                             </ul>
                         </li>
@@ -102,8 +103,6 @@
 
                         {{-- SEPARADOR --}}
                         <li><hr class="dropdown-divider"></li>
-
-
                         
                         {{-- **OPCIÓN 7: BANCOS (CON SUBMENÚ)** --}}
                         <li class="nav-item dropend">
@@ -136,6 +135,7 @@
                                 <li><a class="dropdown-item" href="{{ route('constantes_formulas.index') }}">Constantes de Formulas</a></li>
                             </ul>
                         </li>
+
 
                         
                         

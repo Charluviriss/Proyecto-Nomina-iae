@@ -14,4 +14,9 @@ class Cargos extends Model
     protected $primarykey = 'id';
 
     protected $fillable = ['descripcion'];
+
+    // Un cargo puede tener muchos empleados
+    public function empleados() {
+        return $this->hasMany(Empleado::class);
+    }
 }
