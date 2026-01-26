@@ -6,6 +6,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 <body>
 
@@ -26,7 +27,8 @@
                     {{-- Contenedor principal del Menú (TODO debe ir aquí dentro) --}}
                     <ul class="dropdown-menu">
                         
-                        <li><a class="dropdown-item" href="{{ route('empresas.index') }}">Empresa</a></li>
+                        <li><a class="dropdown-item" href="{{ route('empresas.index') }}"><i class="bi bi-building me-2"></i> Empresa</a></li>
+                        
                         
                         {{-- SEPARADOR --}}
                         <li><hr class="dropdown-divider"></li>
@@ -34,7 +36,7 @@
                         {{-- **OPCIÓN 3: NIVELES FUNCIONALES (CON SUBMENÚ)** --}}
                         <li class="nav-item dropend">
                             <a class="dropdown-item dropdown-toggle" href="#" id="submenuNiveles" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Niveles Funcionales
+                                <i class="bi bi-diagram-3 me-2"></i> Niveles Funcionales
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="submenuNiveles">
                                 <li><h6 class="dropdown-header">Gestionar Niveles Funcionales</h6></li>
@@ -50,7 +52,7 @@
                         {{-- **OPCIÓN 4: TIPOS (CON SUBMENÚ)** --}}
                         <li class="nav-item dropend">
                             <a class="dropdown-item dropdown-toggle" href="#" id="submenuTipos" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Tipos
+                                <i class="bi bi-tags me-2"></i> Tipos
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="submenuTipos">
                                 <li><h6 class="dropdown-header">Gestionar Tipos</h6></li>
@@ -72,7 +74,7 @@
                         {{-- **OPCIÓN 5: PROFESIONES/CARGOS (CON SUBMENÚ)** --}}
                         <li class="nav-item dropend">
                             <a class="dropdown-item dropdown-toggle" href="#" id="submenuProfesiones" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Prof. - Cargos - Cat.
+                                <i class="bi bi-briefcase me-2"></i> Prof. - Cargos - Cat.
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="submenuProfesiones">
                                 <li><h6 class="dropdown-header">Profesiones y Cargos</h6></li>
@@ -86,16 +88,27 @@
                         {{-- SEPARADOR --}}
                         <li><hr class="dropdown-divider"></li>
                         
-                        {{-- Opción 6: Monedas --}}
-                        <li><a class="dropdown-item" href="#">6. Monedas</a></li>
-                        
+                        {{-- Opción 6: Calendarios (CON SUBMENÚ) --}}
+                        <li class="nav-item dropend">
+                            <a class="dropdown-item dropdown-toggle" href="#" id="submenuCalendarios" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                 <i class="bi bi-calendar3 me-2"></i> Calendarios
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="submenuCalendarios">
+                                <li><h6 class="dropdown-header">Gestión de Calendarios</h6></li>
+                                <li><a class="dropdown-item" href="{{ route('calendarios.index') }}">Calendario General de la Empresa</a></li>
+                                <li><a class="dropdown-item" href="{{ route('calendarios.personal') }}">Calendario por Personal</a></li>
+                            </ul>
+                        </li>
+
                         {{-- SEPARADOR --}}
                         <li><hr class="dropdown-divider"></li>
+
+
                         
                         {{-- **OPCIÓN 7: BANCOS (CON SUBMENÚ)** --}}
                         <li class="nav-item dropend">
                             <a class="dropdown-item dropdown-toggle" href="#" id="submenuBancos" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Bancos
+                                 <i class="bi bi-bank me-2"></i> Bancos
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="submenuBancos">
                                 <li><h6 class="dropdown-header">Gestión de Grupos Bancarios</h6></li>
@@ -111,7 +124,7 @@
                         {{-- **OPCIÓN 8: FORMULACIÓN DE CONCEPTOS (CON SUBMENÚ)** --}}
                         <li class="nav-item dropend">
                             <a class="dropdown-item dropdown-toggle" href="#" id="submenuFormulacion" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                📝 8. Formulación de Conceptos
+                                 <i class="bi bi-calculator me-2"></i> Formulación de Conceptos
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="submenuFormulacion">
                                 <li><h6 class="dropdown-header">Configuración de Conceptos</h6></li>
@@ -124,18 +137,25 @@
                             </ul>
                         </li>
 
-                        {{-- Opción 9: Países --}}
-                        <li><a class="dropdown-item" href="#">9. Países</a></li>
                         
-                        {{-- Opción 9: Ciudades --}}
-                        <li><a class="dropdown-item" href="#">9. Ciudades</a></li>
                         
-                        {{-- Opción 10: Permisos --}}
-                        <li><a class="dropdown-item" href="#">10. Permisos</a></li>
-                        
-                        {{-- Opción 11 (Extra): Logs --}}
+
+                        {{-- SEPARADOR --}}
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Logs del Sistema</a></li>
+
+                        {{-- Opción 10: Países --}}
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-globe-americas me-2"></i> Países</a></li>
+                        
+                        {{-- Opción 10: Ciudades --}}
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-buildings me-2"></i> Ciudades</a></li>
+                        
+                        {{-- Opción 11: Permisos --}}
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-shield-lock me-2"></i> Permisos</a></li>
+                        
+                        {{-- Opción 12 (Extra): Logs --}}
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-journal-text me-2"></i> Logs del Sistema</a></li>
+
 
                     </ul>
                 </div>
