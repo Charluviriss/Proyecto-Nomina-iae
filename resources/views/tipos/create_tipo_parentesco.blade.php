@@ -8,9 +8,15 @@
         @csrf
 
         <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" name="nombre" id="nombre" class="form-control"
-                   placeholder="Ingrese el nombre del parentesco" required>
+            <label for="codigo" class="form-label">Código</label>
+            <input type="text" name="codigo" id="codigo" class="form-control"
+                   placeholder="Ingrese el código" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="descripcion" class="form-label">Descripción</label>
+            <input type="text" name="descripcion" id="descripcion" class="form-control"
+                   placeholder="Ingrese la descripción del parentesco" required>
         </div>
 
         <!-- Aquí puedes agregar otros campos si es necesario -->

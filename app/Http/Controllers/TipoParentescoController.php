@@ -15,7 +15,7 @@ class TipoParentescoController extends Controller
 
     public function create()
     {
-        // No se usa vista separada en este ejemplo
+        return view('tipos.create_tipo_parentesco');
     }
 
     public function store(Request $request)
@@ -39,8 +39,7 @@ class TipoParentescoController extends Controller
     public function edit($id)
     {
         $tipo = TipoParentesco::findOrFail($id);
-        // Vista alternativa que ya tenías
-        return view('tipos.edit_tipo_Parentesco', compact('tipo'));
+        return view('tipos.edit_tipo_parentesco', compact('tipo'));
     }
 
     public function update(Request $request, $id)
