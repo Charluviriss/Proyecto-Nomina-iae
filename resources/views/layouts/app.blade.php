@@ -153,17 +153,17 @@
                         {{-- SEPARADOR --}}
 
                         {{-- Opción 10: Países --}}
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-globe-americas me-2"></i> Países</a></li>
+                        <!--li><a class="dropdown-item" href="#"><i class="bi bi-globe-americas me-2"></i> Países</a></li>
                         
                         {{-- Opción 10: Ciudades --}}
                         <li><a class="dropdown-item" href="#"><i class="bi bi-buildings me-2"></i> Ciudades</a></li>
                         
                         {{-- Opción 11: Permisos --}}
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-shield-lock me-2"></i> Permisos</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-shield-lock me-2"></i> Permisos</a></li-->
                         
                         {{-- Opción 12 (Extra): Logs --}}
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-journal-text me-2"></i> Logs del Sistema</a></li>
+                        <!--li><a class="dropdown-item" href="#"><i class="bi bi-journal-text me-2"></i> Logs del Sistema</a></li-->
                         <li><a class="dropdown-item" href="{{ url('/') }}"><i class="bi bi-house-door me-2"></i> Volver al inicio</a></li>
 
                     </ul>

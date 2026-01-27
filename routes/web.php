@@ -1,10 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+//empleados
 use App\Http\Controllers\EmpleadoController;
 
 //nominas
 use App\Http\Controllers\NominaController;
+
+// Rutas para la empresa
+use App\Http\Controllers\EmpresaController;
 
 //Rutas para Tipos
 use App\Http\Controllers\TipoNominaController;
@@ -40,8 +45,7 @@ use App\Http\Controllers\ConceptoNominaController;
 use App\Http\Controllers\ConstanteFormulaController;
 //
 
-// Rutas para la empresa
-use App\Http\Controllers\EmpresaController;
+
 use App\Http\Controllers\CalendarioController;
 
 
@@ -49,18 +53,14 @@ Route::get('/', function () {
     return view('layouts.pantalla_principal');
 });
 
-
+//empleados
 Route::resource('empleados', EmpleadoController::class);
 
-// 1. Ruta para mostrar el formulario de creación de un nuevo empleado
-//Route::get('/empleados/crear', [EmpleadoController::class, 'create'])->name('empleados.create');
+//rutas para nominas
+Route::resource('nominas', NominaController::class);
 
-// 2. Ruta para procesar el formulario (se usará en el futuro)
-//Route::post('/empleados', [EmpleadoController::class, 'store'])->name('empleados.store');
-
-// 3. Ruta para mostrar la lista de todos los empleados
-//Route::get('/empleados', [EmpleadoController::class, 'index'])->name('empleados.index');
-
+// Rutas para la empresa
+Route::resource('empresas', EmpresaController::class);
 
 //Rutas para Tipos
 Route::resource('tipo_nominas', TipoNominaController::class);
@@ -110,8 +110,7 @@ Route::resource('adicionales_conceptos', AdicionalConceptoController::class);
 Route::resource('conceptos_nomina', ConceptoNominaController::class);
 Route::resource('constantes_formulas', ConstanteFormulaController::class);
 
-// Rutas para la empresa
-Route::resource('empresas', EmpresaController::class);
+
 
 // Rutas para Calendarios
 Route::get('/calendarios', [CalendarioController::class, 'index'])->name('calendarios.index');
@@ -119,5 +118,4 @@ Route::get('/calendarios/ver', [CalendarioController::class, 'showCalendar'])->n
 Route::get('/calendarios/personal', [CalendarioController::class, 'personal'])->name('calendarios.personal');
 Route::get('/calendarios/feriados', [CalendarioController::class, 'feriados'])->name('calendarios.feriados');
 
-//rutas para nominas
-Route::resource('nominas', NominaController::class);
+
