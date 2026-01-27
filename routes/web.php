@@ -42,6 +42,7 @@ use App\Http\Controllers\ConstanteFormulaController;
 
 // Rutas para la empresa
 use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\CalendarioController;
 
 
 Route::get('/', function () {
@@ -111,6 +112,12 @@ Route::resource('constantes_formulas', ConstanteFormulaController::class);
 
 // Rutas para la empresa
 Route::resource('empresas', EmpresaController::class);
+
+// Rutas para Calendarios
+Route::get('/calendarios', [CalendarioController::class, 'index'])->name('calendarios.index');
+Route::get('/calendarios/ver', [CalendarioController::class, 'showCalendar'])->name('calendarios.show');
+Route::get('/calendarios/personal', [CalendarioController::class, 'personal'])->name('calendarios.personal');
+Route::get('/calendarios/feriados', [CalendarioController::class, 'feriados'])->name('calendarios.feriados');
 
 //rutas para nominas
 Route::resource('nominas', NominaController::class);

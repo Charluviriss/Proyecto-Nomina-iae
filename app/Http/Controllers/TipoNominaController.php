@@ -38,11 +38,7 @@ class TipoNominaController extends Controller
                          ->with('success', '¡Nómina registrada con éxito!');
     }
 
-    //public function edit($id)
-    //{
-    //    $tipoNomina = TipoNomina::findOrFail($id);
-    //    return view('tipos.edit_tipo_nomina', compact('tipoNomina'));
-    //}
+
 
     /**
      * Show the form for editing the specified resource.
