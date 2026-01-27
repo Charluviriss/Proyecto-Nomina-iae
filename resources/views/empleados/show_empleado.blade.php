@@ -104,7 +104,7 @@
                         </button>
                     </form>
 
-                    <a href="/" class="btn btn-sm btn-outline-dark">Cerrar</a>
+                    <a href="{{ url('/') }}" class="btn btn-sm btn-outline-dark">Cerrar</a>
                 </div>
             </div>
         </div>

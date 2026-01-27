@@ -41,8 +41,6 @@ class EmpleadoController extends Controller
      */
     public function create()
     {
-        // Aquí deberías cargar las tablas maestras para los selects del formulario
-        // Ej: $cargos = Cargo::all();
         // Consultamos toda la información de las tablas de configuración
         $profesiones = Profesiones::orderBy('descripcion', 'asc')->get();
         $grupo_bancos = GrupoBanco::orderBy('descripcion', 'asc')->get();
@@ -94,16 +92,15 @@ class EmpleadoController extends Controller
                 'direccion'         => $request->direccion,
                 'telefono'          => $request->telefono,
                 'email'             => $request->email,
-                // CORRECCIÓN AQUÍ: nombre exacto de la tabla
                 'situacion_laboral' => $request->situacion_Laboal ?? 'Nuevo', 
                 
                 'ficha_Empleado'    => $request->ficha_Empleado,
                 'fecha_ingreso'     => $request->fecha_ingreso,
                 'prestaciones'      => $request->prestaciones,
                 'tipo_cobro'        => $request->tipo_cobro,
-                'grupo_banco_id'    => $request->banco_id, // Cambiado para coincidir con tu migración
+                'grupo_banco_id'    => $request->banco_id, 
                 'numero_cuenta'     => $request->numero_cuenta,
-                'grupo_banco_auxiliar_id' => $request->banco_auxiliar_id, // Cambiado
+                'grupo_banco_auxiliar_id' => $request->banco_auxiliar_id, 
                 'numero_cuenta_auxiliar' => $request->numero_cuenta_auxiliar,
                 'tipo_contrato'     => $request->tipo_contrato ?? 'Fijo',
                 'Salario'           => $request->Salario ?? 0,
