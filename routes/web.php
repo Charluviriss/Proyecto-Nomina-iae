@@ -48,6 +48,12 @@ use App\Http\Controllers\ConstanteFormulaController;
 
 use App\Http\Controllers\CalendarioController;
 
+// diseños especiales//
+use App\Http\Controllers\DiseñoReporteController;
+use App\Http\Controllers\DisenoArchivoTextoController;
+
+
+
 
 Route::get('/', function () {
     return view('layouts.pantalla_principal');
@@ -118,4 +124,7 @@ Route::get('/calendarios/ver', [CalendarioController::class, 'showCalendar'])->n
 Route::get('/calendarios/personal', [CalendarioController::class, 'personal'])->name('calendarios.personal');
 Route::get('/calendarios/feriados', [CalendarioController::class, 'feriados'])->name('calendarios.feriados');
 
+//  rutas de diseños especiales//
+Route::resource('diseños', DiseñoReporteController::class);
+Route::resource('diseno', DisenoArchivoTextoController::class);
 
