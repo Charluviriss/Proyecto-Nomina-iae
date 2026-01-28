@@ -16,6 +16,7 @@ class TipoParentescoController extends Controller
     public function create()
     {
         return view('tipos.create_tipo_parentesco');
+
     }
 
     public function store(Request $request)
@@ -40,6 +41,7 @@ class TipoParentescoController extends Controller
     {
         $tipo = TipoParentesco::findOrFail($id);
         return view('tipos.edit_tipo_parentesco', compact('tipo'));
+
     }
 
     public function update(Request $request, $id)

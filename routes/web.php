@@ -25,9 +25,7 @@ use App\Http\Controllers\CargosController;
 use App\Http\Controllers\CategoriasController;
 use App\Http\Controllers\TabuladorCategoriasController;
 use App\Http\Controllers\TipoParentescoController;
-//
 
-//niveles funcionales
 use App\Http\Controllers\PresupuestoController;
 use App\Http\Controllers\DireccionController;
 use App\Http\Controllers\DepartamentoController;
@@ -72,14 +70,13 @@ Route::resource('empresas', EmpresaController::class);
 Route::resource('tipo_nominas', TipoNominaController::class);
 Route::resource('tipo_frecuencia_pagos' , TipoFrecuenciaPagoController::class);
 Route::resource('tipo_acumulados' , TipoAcumuladosController::class);
-Route::resource('tipo_ausencias', TipoAusenciaController::class);
+Route::resource('tipo_parentesco', TipoParentescoController::class);
 Route::resource('tipo_prestamos', TipoPrestamoController::class);
 Route::resource('tipo_Aumentos', TipoAumentoController::class);
 Route::resource('Guarderias', GuarderiaController::class);
 Route::resource('tipo_Liquidacion', TipoLiquidacionController::class);
-Route::resource('tipo_ausencia', TipoAusenciaController::class);
-Route::resource('tipo_parentesco', TipoParentescoController::class);
-//
+Route::resource('tipo_ausencias', TipoAusenciaController::class);
+
 
 //Rutas para Profesiones - Cargos - Categorias
 Route::resource('profesiones', ProfesionesController::class)->parameters([
@@ -95,7 +92,6 @@ Route::resource('tabulador_categorias', TabuladorCategoriasController::class);
 Route::resource('presupuesto', PresupuestoController::class);
 Route::resource('direcciones', DireccionController::class);
 Route::resource('departamentos', DepartamentoController::class);
-Route::resource('tipo_ausencia', TipoAusenciaController::class);
 
 // Usando la ruta 'grupos_bancos' para el recurso RESTful
 Route::resource('grupo_bancos', GrupoBancoController::class);

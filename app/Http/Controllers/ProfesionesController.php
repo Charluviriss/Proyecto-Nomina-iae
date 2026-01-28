@@ -85,3 +85,4 @@ class ProfesionesController extends Controller
                          ->with('success', 'Profesion eliminada con éxito!');
     }
 }
+
