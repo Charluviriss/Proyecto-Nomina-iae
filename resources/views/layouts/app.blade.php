@@ -157,10 +157,10 @@
                         </li>
 
                         
+
+
                         <li><hr class="dropdown-divider"></li>
-                        
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-journal-text me-2"></i> Logs del Sistema</a></li>
-                        <li><a class="dropdown-item text-primary" href="{{ url('/') }}"><i class="bi bi-house-door me-2"></i> Volver al inicio</a></li>
+                        <li><a class="dropdown-item" href="{{ url('/') }}"><i class="bi bi-house-door me-2"></i> Volver al inicio</a></li>
 
                     </ul>
                 </div>
