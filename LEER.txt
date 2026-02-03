@@ -1,0 +1,20 @@
+
+para leer comodamente presionar alt + z
+
+1-el sistema tiene en el archivo de database su base de datos nominadb.sql sacada de phpmyadmin el 3 de febrero de 2026, de no usar esa, el sistema tiene las migraciones para crear la misma base de datos que se copio el 3 de febrero de 2026 sin ningun dato adicional. php artisan migrate y se crean todas las tablas necesarias.
+2-el nav-bar del sistema se encuentra en (\proyecto_nomina\resources\views\layouts\app.blade.php) y la pantalla principal en (proyecto_nomina\resources\views\layouts\pantalla_principal.blade.php)
+3-todos los estilos estan en cdn, no hay paquetes de estilos descargados
+4-las tablas empleados y empresas permiten ingresar valores nulos o vacios, esta asi tanto en la vista como en el controlador y en la migracion correspondiente, todo esto con el fin de probar si funciona
+5-en la carpeta resources\views se escuentran todo segmentado en carpetas, las carpetas empleados y empresas son las que estan "fuera" del apartado de configuraciones, eso da a entender que todas las demas carpetas manejan las vistas de las opciones que estan en el boton "Configuracion" del sistema
+6- la forma en la que se estructuraron los archivos con respecto a lo que hacen y el controlador que los maneja es: 
+#Nombre Funcion : nombre de archivo
+#funcion index : views(NombreCarpeta.NombreModulo(por ejemplo Banco.Banco), compact(contenido a enviar a esa vista))
+#funcion create : views(NombreCarpeta.create_NombreModulo)
+#funcion edit : views(NombreCarpeta.edit_NombreModulo)
+
+no se colocan las 4 funciones restantes por que manejan los mismos nombres de vistas y igualmente esta ejemplificado en los controladores
+7-los unicos modulos con relaciones existentes son los empleados con los campos de configuracion (esto se puede ver en proyecto_nomina\app\Models\Empleado.php) y la nomina con el tipo de nomina, lo que quiere decir que falta crear las relaciones faltantes
+8-para registrar un empleado para ejemplo en este momento se necesita ingresar nombre, apellido, cedula y ficha para que aparezca informacion minima al momento de mostrarlo
+9-para registrar una empresa se necesita como minimo codigo, nombre, numero de serial, telefono. siendo estos los unicos campos validados en el controlador de empresas (proyecto_nomina\app\Http\Controllers\EmpresaController.php) si no se ingresasn como minimo esos datos, el sistema no va a hacer el registro
+10- no se puede registrar una nomina si no hay como minimo un empleado registrado en el tipo de nomina elegido
+11-las rutas en su mayoria usan el metodo resource para que laravel gestione las rutas 

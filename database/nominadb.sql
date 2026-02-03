@@ -1,421 +1,1218 @@
--- -----------------------------------------------------
--- ESQUEMA DE BASE DE DATOS NOMINADB - CON RESTRICCIONES CASCADA
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
 --
--- Se mantienen todas las restricciones de Foreign Key (FK) para
--- asegurar la integridad referencial.
--- La cláusula 'ON DELETE NO ACTION' ha sido reemplazada por
--- 'ON DELETE CASCADE' en TODAS las FKs para permitir la eliminación
--- de registros padres sin restricciones, eliminando automáticamente
--- todos los registros hijos relacionados.
--- -----------------------------------------------------
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 03-02-2026 a las 14:17:01
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
--- 1. CONFIGURACIÓN INICIAL Y LIMPIEZA
--- Estos comandos se relajan para permitir flexibilidad
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;    
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
-
--- Comando para que puedas borrar la base de datos si es necesario (si tienes los privilegios)
-DROP DATABASE IF EXISTS `nominadb`;
-
--- Crear Esquema
-CREATE SCHEMA IF NOT EXISTS `nominadb` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
-USE `nominadb` ;
-
--- -----------------------------------------------------
--- 2. CREACIÓN DE TABLAS PADRE SIN DEPENDENCIAS DE FK (O SOLO A OTRAS PADRE)
--- -----------------------------------------------------
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
+--
+-- Base de datos: `nominadb`
+--
 
+-- --------------------------------------------------------
 
--- Tabla `tipo_nominas` (para especificar que tipo de nomina es. ej: empleado,docente,obrero, etc)
-CREATE TABLE IF NOT EXISTS `nominadb`.`tipo_nominas` (
-`ìd` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-`descripcion_nomina` VARCHAR(100) NOT NULL,
-PRIMARY KEY (`ìd`)
-);
+--
+-- Estructura de tabla para la tabla `adicional_conceptos`
+--
 
--- Tabla `tipo_frecuendia_pagos` (para especificar frecuencia con la que se paga. ej: 15 dias, mes, semanal, etc)
-CREATE TABLE IF NOT EXISTS `nominadb`.`tipo_frecuencia_pagos` (
-`ìd` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-`descripcion_frecuencia` VARCHAR(100) NOT NULL,
-PRIMARY KEY (`ìd`)
-);
+CREATE TABLE `adicional_conceptos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `nro_constante` varchar(10) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `etiqueta` varchar(255) NOT NULL,
+  `tipo_dato` varchar(50) NOT NULL,
+  `valor` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Tabla `tipo_acumulados` (para especificar ciertos tipos de acumulados(no se como se aplica a un ejemplo))
-CREATE TABLE IF NOT EXISTS `nominadb`.`tipo_acumulados` (
-`ìd` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-`descripcion_tipo` VARCHAR(20) NOT NULL,
-`descripcion_acumulado` VARCHAR(100) NOT NULL,
-PRIMARY KEY (`ìd`)
-);
+-- --------------------------------------------------------
 
+--
+-- Estructura de tabla para la tabla `adicional_personals`
+--
 
+CREATE TABLE `adicional_personals` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `nro_constante` varchar(10) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `etiqueta` varchar(255) NOT NULL,
+  `tipo_dato` varchar(50) NOT NULL,
+  `valor` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
 
+--
+-- Estructura de tabla para la tabla `bancos`
+--
 
+CREATE TABLE `bancos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `grupo` varchar(50) NOT NULL,
+  `codigo_banco` varchar(50) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `sucursal` varchar(100) DEFAULT NULL,
+  `direccion` varchar(255) DEFAULT NULL,
+  `gerente` varchar(100) DEFAULT NULL,
+  `cuenta` varchar(50) DEFAULT NULL,
+  `tipo_cuenta` enum('Corriente','Ahorro','Otra') NOT NULL DEFAULT 'Corriente',
+  `texto_inicial_carta` text DEFAULT NULL,
+  `texto_final_carta` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Table `EMPLEADO` (Padre Principal)
-CREATE TABLE IF NOT EXISTS `nominadb`.`EMPLEADO` (
-  `id_empleado` INT NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(255) NOT NULL,
-  `id_cedula` VARCHAR(45) NOT NULL,
-  `sexo` VARCHAR(10) NOT NULL,
-  `fecha_nacimiento` DATE NOT NULL,
-  `lugar_nacimiento` VARCHAR(255) NOT NULL,
-  `telefono` VARCHAR(11) NOT NULL,
-  `profesion` VARCHAR(255) NOT NULL,
-  `direccion` VARCHAR(255) NOT NULL,
-  `email` VARCHAR(255) NOT NULL,
-  `ficha` INT NOT NULL,
-  `situacion` VARCHAR(45) NOT NULL,
-  `salario_base` DECIMAL(10,2) NOT NULL,
-  PRIMARY KEY (`id_empleado`)
-)
-ENGINE = InnoDB;
+-- --------------------------------------------------------
 
--- Table `FORMULA`
-CREATE TABLE IF NOT EXISTS `nominadb`.`FORMULA` (
-  `id_formula` INT NOT NULL AUTO_INCREMENT,
-  `formula` TEXT NOT NULL,
-  PRIMARY KEY (`id_formula`)
-)
-ENGINE = InnoDB;
+--
+-- Estructura de tabla para la tabla `baremos`
+--
 
--- Table `CONSTANTE_GLOBAL`
-CREATE TABLE IF NOT EXISTS `nominadb`.`CONSTANTE_GLOBAL` (
-  `id_constante_global` INT NOT NULL AUTO_INCREMENT,
-  `constante_global` VARCHAR(255) NOT NULL,
-  `descripcion` VARCHAR(255) NULL,
-  `valor` DECIMAL(10,4) NOT NULL,
-  PRIMARY KEY (`id_constante_global`)
-)
-ENGINE = InnoDB;
+CREATE TABLE `baremos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `codigo` varchar(10) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `tipo_dato` enum('Dias','Meses','Años','Otros') NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Table `PARAMETRO_BONO`
-CREATE TABLE IF NOT EXISTS `nominadb`.`PARAMETRO_BONO` (
-  `id_parametro_bono` INT NOT NULL AUTO_INCREMENT,
-  `nro_dias_bono` INT NOT NULL,
-  `dias_incremento` INT NOT NULL,
-  PRIMARY KEY (`id_parametro_bono`)
-)
-ENGINE = InnoDB;
+-- --------------------------------------------------------
 
--- Table `BANCO`
-CREATE TABLE IF NOT EXISTS `nominadb`.`BANCO` (
-  `id_banco` INT NOT NULL AUTO_INCREMENT,
-  `codigo_banco` VARCHAR(45) NOT NULL,
-  `nombre_banco` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`id_banco`)
-)
-ENGINE = InnoDB;
+--
+-- Estructura de tabla para la tabla `cache`
+--
 
--- Table `TIPOS_NOMINA`
-CREATE TABLE IF NOT EXISTS `nominadb`.`TIPOS_NOMINA` (
-  `id_tipos_nomina` INT NOT NULL AUTO_INCREMENT,
-  `nro_calculo_nomina` INT NOT NULL,
-  `dias_nomina` DECIMAL(10,2) NOT NULL,
-  `descripcion_nomina` VARCHAR(255) NULL,
-  PRIMARY KEY (`id_tipos_nomina`)
-)
-ENGINE = InnoDB;
+CREATE TABLE `cache` (
+  `key` varchar(255) NOT NULL,
+  `value` mediumtext NOT NULL,
+  `expiration` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Table `PARAMETRO_VACACIONE` (Clave Compuesta)
-CREATE TABLE IF NOT EXISTS `nominadb`.`PARAMETRO_VACACIONE` (
-  `id_parametros_vacaciones` INT NOT NULL,
-  `antigueda_derechos_año` INT NOT NULL,
-  `nro_dias_disfrute` INT NOT NULL,
-  `dias_incremento_disfrute_años` DECIMAL(10,2) NOT NULL,
-  `fecha_dd_aplicacion_incremento` DATE NOT NULL,
-  `tipo_disfrute_continuo` VARCHAR(45) NOT NULL,
-  `dias_habiles` DECIMAL(10,2) NOT NULL,
-  PRIMARY KEY (`id_parametros_vacaciones`, `antigueda_derechos_año`, `nro_dias_disfrute`, `dias_incremento_disfrute_años`, `fecha_dd_aplicacion_incremento`, `tipo_disfrute_continuo`, `dias_habiles`)
-)
-ENGINE = InnoDB;
+-- --------------------------------------------------------
 
--- Table `CONCEPTO` (Referencia a FORMULA)
-CREATE TABLE IF NOT EXISTS `nominadb`.`CONCEPTO` (
-  `id_concepto` VARCHAR(45) NOT NULL,
-  `descripcion` VARCHAR(255) NULL,
-  `codigo` VARCHAR(45) NOT NULL,
-  `nro_constante` DECIMAL(10,4) NOT NULL,
-  `etiqueta` VARCHAR(45) NOT NULL,
-  `valor_calculado` BOOLEAN NOT NULL,
-  `es_suma_sueldo` BOOLEAN NOT NULL,
-  `FORMULA_id_formula` INT NOT NULL,
-  `tipo_dato` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id_concepto`),
-  INDEX `fk_CONCEPTO_FORMULA1_idx` (`FORMULA_id_formula` ASC),
-  CONSTRAINT `fk_CONCEPTO_FORMULA1`
-    FOREIGN KEY (`FORMULA_id_formula`)
-    REFERENCES `nominadb`.`FORMULA` (`id_formula`)
-    ON DELETE CASCADE -- Cambiado de NO ACTION a CASCADE
-    ON UPDATE CASCADE -- Cambiado de NO ACTION a CASCADE
-)
-ENGINE = InnoDB;
+--
+-- Estructura de tabla para la tabla `cache_locks`
+--
 
+CREATE TABLE `cache_locks` (
+  `key` varchar(255) NOT NULL,
+  `owner` varchar(255) NOT NULL,
+  `expiration` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- -----------------------------------------------------
--- 3. CREACIÓN DE TABLAS CON DEPENDENCIAS SIMPLES
--- -----------------------------------------------------
+-- --------------------------------------------------------
 
--- Table `RELACION_LABORAL` (Referencia a EMPLEADO)
-CREATE TABLE IF NOT EXISTS `nominadb`.`RELACION_LABORAL` (
-  `id_relacion_laboral` INT NOT NULL AUTO_INCREMENT,
-  `tipo_empleado` VARCHAR(45) NOT NULL,
-  `descripcion` VARCHAR(255) NULL,
-  `EMPLEADO_id_empleado` INT NOT NULL,
-  PRIMARY KEY (`id_relacion_laboral`),
-  INDEX `fk_RELACION_LABORAL_EMPLEADO1_idx` (`EMPLEADO_id_empleado` ASC),
-  CONSTRAINT `fk_RELACION_LABORAL_EMPLEADO1`
-    FOREIGN KEY (`EMPLEADO_id_empleado`)
-    REFERENCES `nominadb`.`EMPLEADO` (`id_empleado`)
-    ON DELETE CASCADE -- Cambiado de NO ACTION a CASCADE
-    ON UPDATE CASCADE -- Cambiado de NO ACTION a CASCADE
-)
-ENGINE = InnoDB;
+--
+-- Estructura de tabla para la tabla `cargos`
+--
 
--- Table `ORGANIZACION` (Referencia a RELACION_LABORAL)
-CREATE TABLE IF NOT EXISTS `nominadb`.`ORGANIZACION` (
-  `id_organizacion` INT NOT NULL AUTO_INCREMENT,
-  `tipo_organizacion` VARCHAR(45) NOT NULL,
-  `categoria` VARCHAR(45) NOT NULL,
-  `cargo` VARCHAR(45) NOT NULL,
-  `departamento` VARCHAR(45) NOT NULL,
-  `RELACION_LABORAL_id_relacion_laboral` INT NOT NULL,
-  PRIMARY KEY (`id_organizacion`),
-  INDEX `fk_ORGANIZACION_RELACION_LABORAL1_idx` (`RELACION_LABORAL_id_relacion_laboral` ASC),
-  CONSTRAINT `fk_ORGANIZACION_RELACION_LABORAL1`
-    FOREIGN KEY (`RELACION_LABORAL_id_relacion_laboral`)
-    REFERENCES `nominadb`.`RELACION_LABORAL` (`id_relacion_laboral`)
-    ON DELETE CASCADE -- Cambiado de NO ACTION a CASCADE
-    ON UPDATE CASCADE -- Cambiado de NO ACTION a CASCADE
-)
-ENGINE = InnoDB;
+CREATE TABLE `cargos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `descripcion` varchar(100) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Table `GRUPOS_BANCO` (Referencia a BANCO)
-CREATE TABLE IF NOT EXISTS `nominadb`.`GRUPOS_BANCO` (
-  `id_grupo_banco` INT NOT NULL AUTO_INCREMENT,
-  `codigo_banco_grupo` VARCHAR(45) NOT NULL,
-  `generar_nomina` BOOLEAN NOT NULL,
-  `cuenta_bancaria` VARCHAR(45) NOT NULL,
-  `descripcion` VARCHAR(255) NULL,
-  `tipo_cuenta_bancaria` VARCHAR(45) NOT NULL,
-  `id_banco_FK` INT NOT NULL,
-  PRIMARY KEY (`id_grupo_banco`),
-  INDEX `fk_GRUPOS_BANCO_BANCO1_idx` (`id_banco_FK` ASC),
-  CONSTRAINT `fk_GRUPOS_BANCO_BANCO1`
-    FOREIGN KEY (`id_banco_FK`)
-    REFERENCES `nominadb`.`BANCO` (`id_banco`)
-    ON DELETE CASCADE -- Cambiado de NO ACTION a CASCADE
-    ON UPDATE CASCADE -- Cambiado de NO ACTION a CASCADE
-)
-ENGINE = InnoDB;
+-- --------------------------------------------------------
 
--- Table `NOMINA_PPD` (Referencia a TIPOS_NOMINA)
-CREATE TABLE IF NOT EXISTS `nominadb`.`NOMINA_PPD` (
-  `id_tipo_nomina` INT NOT NULL AUTO_INCREMENT,
-  `tipo_nomina` VARCHAR(45) NOT NULL,
-  `TIPOS_NOMINA_id_tipos_nomina` INT NOT NULL,
-  PRIMARY KEY (`id_tipo_nomina`),
-  INDEX `fk_NOMINA_PPD_TIPOS_NOMINA1_idx` (`TIPOS_NOMINA_id_tipos_nomina` ASC),
-  CONSTRAINT `fk_NOMINA_PPD_TIPOS_NOMINA1`
-    FOREIGN KEY (`TIPOS_NOMINA_id_tipos_nomina`)
-    REFERENCES `nominadb`.`TIPOS_NOMINA` (`id_tipos_nomina`)
-    ON DELETE CASCADE -- Cambiado de NO ACTION a CASCADE
-    ON UPDATE CASCADE -- Cambiado de NO ACTION a CASCADE
-)
-ENGINE = InnoDB;
+--
+-- Estructura de tabla para la tabla `categorias`
+--
 
--- Table `CONSTANTE` (Referencia a FORMULA, PARAMETRO_BONO, CONSTANTE_GLOBAL)
-CREATE TABLE IF NOT EXISTS `nominadb`.`CONSTANTE` (
-  `id_constante` INT NOT NULL AUTO_INCREMENT,
-  `nro_constante` DECIMAL(10,4) NOT NULL,
-  `etiqueta` VARCHAR(45) NOT NULL,
-  `descripcion` VARCHAR(255) NULL,
-  `tipo_datos` VARCHAR(45) NOT NULL,
-  `valor` BOOLEAN NOT NULL,
-  `CONSTANTE_GLOBAL_id_constante_global` INT NOT NULL,
-  `FORMULA_id_formula` INT NOT NULL,
-  `PARAMETRO_BONO_id_parametro_bono` INT NOT NULL,
-  PRIMARY KEY (`id_constante`),
-  INDEX `fk_CONSTANTE_FORMULA1_idx` (`FORMULA_id_formula` ASC),
-  INDEX `fk_CONSTANTE_PARAMETRO_BONO1_idx` (`PARAMETRO_BONO_id_parametro_bono` ASC),
-  INDEX `fk_CONSTANTE_CONSTANTE_GLOBAL1_idx` (`CONSTANTE_GLOBAL_id_constante_global` ASC),
-  CONSTRAINT `fk_CONSTANTE_FORMULA1`
-    FOREIGN KEY (`FORMULA_id_formula`)
-    REFERENCES `nominadb`.`FORMULA` (`id_formula`)
-    ON DELETE CASCADE -- Cambiado de NO ACTION a CASCADE
-    ON UPDATE CASCADE, -- Cambiado de NO ACTION a CASCADE
-  CONSTRAINT `fk_CONSTANTE_PARAMETRO_BONO1`
-    FOREIGN KEY (`PARAMETRO_BONO_id_parametro_bono`)
-    REFERENCES `nominadb`.`PARAMETRO_BONO` (`id_parametro_bono`)
-    ON DELETE CASCADE -- Cambiado de NO ACTION a CASCADE
-    ON UPDATE CASCADE, -- Cambiado de NO ACTION a CASCADE
-  CONSTRAINT `fk_CONSTANTE_CONSTANTE_GLOBAL1`
-    FOREIGN KEY (`CONSTANTE_GLOBAL_id_constante_global`)
-    REFERENCES `nominadb`.`CONSTANTE_GLOBAL` (`id_constante_global`)
-    ON DELETE CASCADE -- Cambiado de NO ACTION a CASCADE
-    ON UPDATE CASCADE -- Cambiado de NO ACTION a CASCADE
-)
-ENGINE = InnoDB;
+CREATE TABLE `categorias` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `descripcion` varchar(100) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Table `CONSTANTE_CONCEPTO` (Referencia a CONSTANTE)
-CREATE TABLE IF NOT EXISTS `nominadb`.`CONSTANTE_CONCEPTO` (
-  `id_constante_concepto` INT NOT NULL AUTO_INCREMENT,
-  `id_concepto` VARCHAR(45) NOT NULL,
-  `etiqueta` VARCHAR(45) NOT NULL,
-  `valor` DECIMAL(10,4) NOT NULL,
-  `CONSTANTE_id_constante` INT NOT NULL,
-  PRIMARY KEY (`id_constante_concepto`),
-  INDEX `fk_CONSTANTE_CONCEPTO_CONSTANTE1_idx` (`CONSTANTE_id_constante` ASC),
-  CONSTRAINT `fk_CONSTANTE_CONCEPTO_CONSTANTE1`
-    FOREIGN KEY (`CONSTANTE_id_constante`)
-    REFERENCES `nominadb`.`CONSTANTE` (`id_constante`)
-    ON DELETE CASCADE -- Cambiado de NO ACTION a CASCADE
-    ON UPDATE CASCADE -- Cambiado de NO ACTION a CASCADE
-)
-ENGINE = InnoDB;
+-- --------------------------------------------------------
 
--- Table `CONSTANTE_CONTRACTO` (Referencia a CONSTANTE, EMPLEADO)
-CREATE TABLE IF NOT EXISTS `nominadb`.`CONSTANTE_CONTRACTO` (
-  `id_constante_contracto` INT NOT NULL AUTO_INCREMENT,
-  `constante_contracto` VARCHAR(255) NOT NULL,
-  `id_empleado_FK` INT NOT NULL,
-  `etiqueta` VARCHAR(45) NOT NULL,
-  `valor` DECIMAL(10,4) NOT NULL,
-  `CONSTANTE_id_constante` INT NOT NULL,
-  `EMPLEADO_id_empleado` INT NOT NULL,
-  PRIMARY KEY (`id_constante_contracto`),
-  INDEX `fk_CONSTANTE_CONTRACTO_CONSTANTE1_idx` (`CONSTANTE_id_constante` ASC),
-  INDEX `fk_CONSTANTE_CONTRACTO_EMPLEADO1_idx` (`EMPLEADO_id_empleado` ASC),
-  CONSTRAINT `fk_CONSTANTE_CONTRACTO_CONSTANTE1`
-    FOREIGN KEY (`CONSTANTE_id_constante`)
-    REFERENCES `nominadb`.`CONSTANTE` (`id_constante`)
-    ON DELETE CASCADE -- Cambiado de NO ACTION a CASCADE
-    ON UPDATE CASCADE, -- Cambiado de NO ACTION a CASCADE
-  CONSTRAINT `fk_CONSTANTE_CONTRACTO_EMPLEADO1`
-    FOREIGN KEY (`EMPLEADO_id_empleado`)
-    REFERENCES `nominadb`.`EMPLEADO` (`id_empleado`)
-    ON DELETE CASCADE -- Cambiado de NO ACTION a CASCADE
-    ON UPDATE CASCADE -- Cambiado de NO ACTION a CASCADE
-)
-ENGINE = InnoDB;
+--
+-- Estructura de tabla para la tabla `concepto_nominas`
+--
 
--- Table `DOTACION_LABORAL` (Referencia a EMPLEADO)
-CREATE TABLE IF NOT EXISTS `nominadb`.`DOTACION_LABORAL` (
-  `id_dotacion_laboral` INT NOT NULL AUTO_INCREMENT,
-  `nro_dotacion` VARCHAR(45) NOT NULL,
-  `fecha_dotacion` DATE NOT NULL,
-  `tipo_dotacion` VARCHAR(45) NOT NULL,
-  `id_empleado_FK` INT NOT NULL,
-  `cantidad_aplicada` INT NOT NULL,
-  `EMPLEADO_id_empleado` INT NOT NULL,
-  PRIMARY KEY (`id_dotacion_laboral`),
-  INDEX `fk_DOTACION_LABORAL_EMPLEADO1_idx` (`EMPLEADO_id_empleado` ASC),
-  CONSTRAINT `fk_DOTACION_LABORAL_EMPLEADO1`
-    FOREIGN KEY (`EMPLEADO_id_empleado`)
-    REFERENCES `nominadb`.`EMPLEADO` (`id_empleado`)
-    ON DELETE CASCADE -- Cambiado de NO ACTION a CASCADE
-    ON UPDATE CASCADE -- Cambiado de NO ACTION a CASCADE
-)
-ENGINE = InnoDB;
+CREATE TABLE `concepto_nominas` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `codigo` varchar(20) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `tipo_concepto` varchar(50) NOT NULL,
+  `unidad` varchar(50) NOT NULL,
+  `valor_por_defecto` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `imprime_detalles` tinyint(1) NOT NULL DEFAULT 0,
+  `prorratea` tinyint(1) NOT NULL DEFAULT 0,
+  `fijo` tinyint(1) NOT NULL DEFAULT 0,
+  `usa_descripcion_alternativa` tinyint(1) NOT NULL DEFAULT 0,
+  `modifica_descripcion` tinyint(1) NOT NULL DEFAULT 0,
+  `bonificable` tinyint(1) NOT NULL DEFAULT 0,
+  `hoja_tiempo` tinyint(1) NOT NULL DEFAULT 0,
+  `muestra_valor_referencia` tinyint(1) NOT NULL DEFAULT 0,
+  `muestra_monto_calculo` tinyint(1) NOT NULL DEFAULT 0,
+  `formula` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `tipos_nomina` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`tipos_nomina`)),
+  `frecuencias` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`frecuencias`)),
+  `situaciones` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`situaciones`)),
+  `acumulados` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`acumulados`))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Table `ESCALA_PARA_CALCULAR_VACACIONES` (Referencia a PARAMETRO_VACACIONE)
-CREATE TABLE IF NOT EXISTS `nominadb`.`ESCALA_PARA_CALCULAR_VACACIONES` (
-  `id_escala_para_calcular_vacaciones` INT NOT NULL AUTO_INCREMENT,
-  `codigo_escala_disfrute` DECIMAL(10,2) NOT NULL,
-  `codigo_escala_vacaciones` INT NOT NULL,
-  `codigo_escala_bono` DECIMAL(5,2) NOT NULL,
-  `PARAMETRO_VACACIONE_id_parametros_vacaciones` INT NOT NULL,
-  `PARAMETRO_VACACIONE_antigueda_derechos_año` INT NOT NULL,
-  `PARAMETRO_VACACIONE_nro_dias_disfrute` INT NOT NULL,
-  `PARAMETRO_VACACIONE_dias_incremento_disfrute_años` DECIMAL(10,2) NOT NULL,
-  `PARAMETRO_VACACIONE_fecha_dd_aplicacion_incremento` DATE NOT NULL,
-  `PARAMETRO_VACACIONE_tipo_disfrute_continuo` VARCHAR(45) NOT NULL,
-  `PARAMETRO_VACACIONE_dias_habiles` DECIMAL(10,2) NOT NULL,
-  PRIMARY KEY (`id_escala_para_calcular_vacaciones`),
-  INDEX `fk_ESCALA_PARA_CALCULAR_VACACIONES_PARAMETRO_VACACIONE1_idx` (`PARAMETRO_VACACIONE_id_parametros_vacaciones` ASC, `PARAMETRO_VACACIONE_antigueda_derechos_año` ASC, `PARAMETRO_VACACIONE_nro_dias_disfrute` ASC, `PARAMETRO_VACACIONE_dias_incremento_disfrute_años` ASC, `PARAMETRO_VACACIONE_fecha_dd_aplicacion_incremento` ASC, `PARAMETRO_VACACIONE_tipo_disfrute_continuo` ASC, `PARAMETRO_VACACIONE_dias_habiles` ASC),
-  CONSTRAINT `fk_ESCALA_PARA_CALCULAR_VACACIONES_PARAMETRO_VACACIONE1`
-    FOREIGN KEY (`PARAMETRO_VACACIONE_id_parametros_vacaciones` , `PARAMETRO_VACACIONE_antigueda_derechos_año` , `PARAMETRO_VACACIONE_nro_dias_disfrute` , `PARAMETRO_VACACIONE_dias_incremento_disfrute_años` , `PARAMETRO_VACACIONE_fecha_dd_aplicacion_incremento` , `PARAMETRO_VACACIONE_tipo_disfrute_continuo` , `PARAMETRO_VACACIONE_dias_habiles`)
-    REFERENCES `nominadb`.`PARAMETRO_VACACIONE` (`id_parametros_vacaciones` , `antigueda_derechos_año` , `nro_dias_disfrute` , `dias_incremento_disfrute_años` , `fecha_dd_aplicacion_incremento` , `tipo_disfrute_continuo` , `dias_habiles`)
-    ON DELETE CASCADE -- Cambiado de NO ACTION a CASCADE
-    ON UPDATE CASCADE -- Cambiado de NO ACTION a CASCADE
-)
-ENGINE = InnoDB;
+-- --------------------------------------------------------
 
+--
+-- Estructura de tabla para la tabla `constante_formulas`
+--
 
--- -----------------------------------------------------
--- 4. MANEJO DE DEPENDENCIAS CIRCULARES (NOMINA_DETALLE <-> PAGOS_NOMINA)
--- -----------------------------------------------------
+CREATE TABLE `constante_formulas` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `codigo` varchar(20) NOT NULL,
+  `etiqueta` varchar(255) NOT NULL,
+  `tipo_campo` varchar(50) NOT NULL,
+  `valor` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Paso 4a: Crear NOMINA_DETALLE SIN la FK a PAGOS_NOMINA
-CREATE TABLE IF NOT EXISTS `nominadb`.`NOMINA_DETALLE` (
-  `id_detalle` INT NOT NULL AUTO_INCREMENT,
-  `id_empleado_FK` INT NOT NULL,
-  `monto_calculado` DECIMAL(10,2) NOT NULL,
-  `NOMINA_PERIODO_id_tipo_nomina` INT NOT NULL,
-  `nro_periodo` INT NOT NULL,
-  `PAGO_id_pago` INT NOT NULL, -- Columna INT, NO AÑADIMOS LA FK AQUÍ
-  `CONCEPTO_id_concepto` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id_detalle`),
-  INDEX `fk_NOMINA_DETALLE_NOMINA_PPD1_idx` (`NOMINA_PERIODO_id_tipo_nomina` ASC),
-  INDEX `fk_NOMINA_DETALLE_EMPLEADO1_idx` (`id_empleado_FK` ASC),
+-- --------------------------------------------------------
 
-  -- FK a tablas ya creadas
-  CONSTRAINT `fk_NOMINA_DETALLE_NOMINA_PPD1`
-    FOREIGN KEY (`NOMINA_PERIODO_id_tipo_nomina`)
-    REFERENCES `nominadb`.`NOMINA_PPD` (`id_tipo_nomina`)
-    ON DELETE CASCADE -- Cambiado de NO ACTION a CASCADE
-    ON UPDATE CASCADE, -- Cambiado de NO ACTION a CASCADE
-  CONSTRAINT `fk_NOMINA_DETALLE_EMPLEADO1`
-    FOREIGN KEY (`id_empleado_FK`)
-    REFERENCES `nominadb`.`EMPLEADO` (`id_empleado`)
-    ON DELETE CASCADE -- Cambiado de NO ACTION a CASCADE
-    ON UPDATE CASCADE, -- Cambiado de NO ACTION a CASCADE
-  CONSTRAINT `fk_NOMINA_DETALLE_CONCEPTO1`
-    FOREIGN KEY (`CONCEPTO_id_concepto`)
-    REFERENCES `nominadb`.`CONCEPTO` (`id_concepto`)
-    ON DELETE CASCADE -- Cambiado de NO ACTION a CASCADE
-    ON UPDATE CASCADE -- Cambiado de NO ACTION a CASCADE
-)
-ENGINE = InnoDB;
+--
+-- Estructura de tabla para la tabla `departamentos`
+--
 
+CREATE TABLE `departamentos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `codigo` varchar(50) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Paso 4b: Crear PAGOS_NOMINA (que referencia a NOMINA_DETALLE)
-CREATE TABLE IF NOT EXISTS `nominadb`.`PAGOS_NOMINA` (
-  `id_pagos_nomina` INT NOT NULL AUTO_INCREMENT,
-  `id_pago` INT NOT NULL UNIQUE, -- <<-- CORRECCIÓN: DEBE SER UNIQUE PARA SER REFERENCIADO
-  `monto` DECIMAL(10,2) NOT NULL,
-  `NOMINA_DETALLE_id_detalle` INT NOT NULL,
-  PRIMARY KEY (`id_pagos_nomina`),
+-- --------------------------------------------------------
 
-  -- FK de PAGOS_NOMINA a NOMINA_DETALLE (esta referencia ya funciona)
-  CONSTRAINT `fk_PAGOS_NOMINA_NOMINA_DETALLE1`
-    FOREIGN KEY (`NOMINA_DETALLE_id_detalle`)
-    REFERENCES `nominadb`.`NOMINA_DETALLE` (`id_detalle`)
-    ON DELETE CASCADE -- Cambiado de NO ACTION a CASCADE
-    ON UPDATE CASCADE -- Cambiado de NO ACTION a CASCADE
-)
-ENGINE = InnoDB;
+--
+-- Estructura de tabla para la tabla `direcciones`
+--
 
+CREATE TABLE `direcciones` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `codigo` varchar(50) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Paso 4c: Añadir la FK faltante a NOMINA_DETALLE (rompiendo el ciclo)
--- Ahora sí, NOMINA_DETALLE puede referenciar a PAGOS_NOMINA.id_pago (que es UNIQUE)
-ALTER TABLE `nominadb`.`NOMINA_DETALLE`
-ADD INDEX `fk_NOMINA_DETALLE_PAGOS_NOMINA1_idx` (`PAGO_id_pago` ASC),
-ADD CONSTRAINT `fk_NOMINA_DETALLE_PAGOS_NOMINA1`
-  FOREIGN KEY (`PAGO_id_pago`)
-  REFERENCES `nominadb`.`PAGOS_NOMINA` (`id_pago`)
-  ON DELETE CASCADE -- Cambiado de NO ACTION a CASCADE
-  ON UPDATE CASCADE; -- Cambiado de NO ACTION a CASCADE
+-- --------------------------------------------------------
 
+--
+-- Estructura de tabla para la tabla `diseno_archivo_textos`
+--
 
--- -----------------------------------------------------
--- 5. RESTAURAR CONFIGURACIÓN
--- -----------------------------------------------------
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+CREATE TABLE `diseno_archivo_textos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `codigo` varchar(50) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `organismo` varchar(100) NOT NULL,
+  `notas` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `diseños_reporte`
+--
+
+CREATE TABLE `diseños_reporte` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `report` varchar(255) NOT NULL,
+  `file` varchar(255) NOT NULL,
+  `date` date NOT NULL,
+  `time` time NOT NULL,
+  `size` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `empleados`
+--
+
+CREATE TABLE `empleados` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `ficha_Empleado` varchar(50) NOT NULL,
+  `Nacionalidad` enum('Venezolano','Extranjero') DEFAULT NULL,
+  `cedula` varchar(20) DEFAULT NULL,
+  `apellidos` varchar(100) DEFAULT NULL,
+  `nombres` varchar(100) DEFAULT NULL,
+  `sexo` enum('Masculino','Femenino','Otro') DEFAULT NULL,
+  `fecha_nacimiento` date DEFAULT NULL,
+  `lugar` varchar(100) DEFAULT NULL,
+  `profesion_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `direccion` varchar(255) DEFAULT NULL,
+  `telefono` varchar(20) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `situacion_laboral` enum('Nuevo','Activo','Suspendido','Vacaciones','Inactivo','Jubilado') DEFAULT 'Nuevo',
+  `foto_empleado` varchar(255) DEFAULT NULL,
+  `fecha_ingreso` date DEFAULT NULL,
+  `prestaciones` enum('Fideicomiso','Fondo','Contabilidad') DEFAULT NULL,
+  `tipo_cobro` enum('Efectivo','Cheque','Deposito Ahorro','Deposito Cta. Corriente','Deposito F.A.L.') DEFAULT NULL,
+  `grupo_banco_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `numero_cuenta` varchar(30) DEFAULT NULL,
+  `grupo_banco_auxiliar_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `numero_cuenta_auxiliar` varchar(30) DEFAULT NULL,
+  `tipo_contrato` enum('Fijo','Temporal','Contratado','Pasante') NOT NULL,
+  `Salario` varchar(30) DEFAULT NULL,
+  `tipo_nomina_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `presupuesto_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `direccion_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `departamento_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `categoria_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `cargo_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `empresas`
+--
+
+CREATE TABLE `empresas` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `codigo` varchar(255) NOT NULL,
+  `nro_serial` varchar(255) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `identificador_1` varchar(255) NOT NULL,
+  `identificador_2` varchar(255) NOT NULL,
+  `direccion` text NOT NULL,
+  `ciudad` varchar(255) NOT NULL,
+  `estado_departamento` varchar(255) NOT NULL,
+  `zona_postal` varchar(255) NOT NULL,
+  `telefono` varchar(255) NOT NULL,
+  `representante` varchar(255) NOT NULL,
+  `encargado_rrhh` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `failed_jobs`
+--
+
+CREATE TABLE `failed_jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `uuid` varchar(255) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `grupos_bancos`
+--
+
+CREATE TABLE `grupos_bancos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `codigo_banco_grupo` varchar(50) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `sucursal` varchar(100) DEFAULT NULL,
+  `direccion` varchar(255) DEFAULT NULL,
+  `gerente` varchar(100) DEFAULT NULL,
+  `cuenta` varchar(50) DEFAULT NULL,
+  `texto_inicial_carta` text DEFAULT NULL,
+  `texto_final_carta` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `guarderias`
+--
+
+CREATE TABLE `guarderias` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `codigo_guarderia` varchar(50) NOT NULL,
+  `sucursal_ubicacion` varchar(100) DEFAULT NULL,
+  `rif` varchar(50) DEFAULT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `direccion` varchar(500) DEFAULT NULL,
+  `telefonos` varchar(100) DEFAULT NULL,
+  `nro_registro` varchar(100) DEFAULT NULL,
+  `monto_inscripcion_base` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `monto_mensual_base` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `jobs`
+--
+
+CREATE TABLE `jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `queue` varchar(255) NOT NULL,
+  `payload` longtext NOT NULL,
+  `attempts` tinyint(3) UNSIGNED NOT NULL,
+  `reserved_at` int(10) UNSIGNED DEFAULT NULL,
+  `available_at` int(10) UNSIGNED NOT NULL,
+  `created_at` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `job_batches`
+--
+
+CREATE TABLE `job_batches` (
+  `id` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `total_jobs` int(11) NOT NULL,
+  `pending_jobs` int(11) NOT NULL,
+  `failed_jobs` int(11) NOT NULL,
+  `failed_job_ids` longtext NOT NULL,
+  `options` mediumtext DEFAULT NULL,
+  `cancelled_at` int(11) DEFAULT NULL,
+  `created_at` int(11) NOT NULL,
+  `finished_at` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `migrations`
+--
+
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `nominas`
+--
+
+CREATE TABLE `nominas` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `tipo_nomina_id` bigint(20) UNSIGNED NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `fecha_desde` date NOT NULL,
+  `fecha_hasta` date NOT NULL,
+  `fecha_pago` date NOT NULL,
+  `estado` enum('Abierta','Cerrada','Anulada') NOT NULL DEFAULT 'Abierta',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `nomina_detalles`
+--
+
+CREATE TABLE `nomina_detalles` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `nomina_id` bigint(20) UNSIGNED NOT NULL,
+  `empleado_id` bigint(20) UNSIGNED NOT NULL,
+  `sueldo_base_momento` decimal(12,2) NOT NULL,
+  `total_asignaciones` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `total_deducciones` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `monto_neto` decimal(12,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `password_reset_tokens`
+--
+
+CREATE TABLE `password_reset_tokens` (
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `presupuestos`
+--
+
+CREATE TABLE `presupuestos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `codigo` varchar(50) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `profesiones`
+--
+
+CREATE TABLE `profesiones` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `descripcion` varchar(100) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `sessions`
+--
+
+CREATE TABLE `sessions` (
+  `id` varchar(255) NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text DEFAULT NULL,
+  `payload` longtext NOT NULL,
+  `last_activity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tabla_auxiliars`
+--
+
+CREATE TABLE `tabla_auxiliars` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `codigo` varchar(10) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tabulador_categorias`
+--
+
+CREATE TABLE `tabulador_categorias` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `grupo` varchar(50) NOT NULL,
+  `salario` decimal(12,1) DEFAULT NULL,
+  `bono_mes` decimal(12,1) DEFAULT NULL,
+  `bono_dia` decimal(12,1) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tasas_interes`
+--
+
+CREATE TABLE `tasas_interes` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `año` year(4) NOT NULL,
+  `mes` tinyint(3) UNSIGNED NOT NULL,
+  `tasa` decimal(5,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipos_aumentos`
+--
+
+CREATE TABLE `tipos_aumentos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `tipo` varchar(50) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipos_ausencia`
+--
+
+CREATE TABLE `tipos_ausencia` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `codigo` varchar(50) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipos_liquidacion`
+--
+
+CREATE TABLE `tipos_liquidacion` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `codigo` varchar(50) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipos_prestamos`
+--
+
+CREATE TABLE `tipos_prestamos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `codigo` varchar(50) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_acumulados`
+--
+
+CREATE TABLE `tipo_acumulados` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `descripcion_tipo` varchar(20) NOT NULL,
+  `descripcion_acumulados` varchar(100) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_frecuencia_pagos`
+--
+
+CREATE TABLE `tipo_frecuencia_pagos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `descripcion_frecuencia` varchar(100) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_nominas`
+--
+
+CREATE TABLE `tipo_nominas` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `descripcion_nomina` varchar(100) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_parentesco`
+--
+
+CREATE TABLE `tipo_parentesco` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `codigo` varchar(50) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `users`
+--
+
+CREATE TABLE `users` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `adicional_conceptos`
+--
+ALTER TABLE `adicional_conceptos`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `adicional_conceptos_nro_constante_unique` (`nro_constante`);
+
+--
+-- Indices de la tabla `adicional_personals`
+--
+ALTER TABLE `adicional_personals`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `adicional_personals_nro_constante_unique` (`nro_constante`);
+
+--
+-- Indices de la tabla `bancos`
+--
+ALTER TABLE `bancos`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `bancos_codigo_banco_unique` (`codigo_banco`);
+
+--
+-- Indices de la tabla `baremos`
+--
+ALTER TABLE `baremos`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `baremos_codigo_unique` (`codigo`);
+
+--
+-- Indices de la tabla `cache`
+--
+ALTER TABLE `cache`
+  ADD PRIMARY KEY (`key`);
+
+--
+-- Indices de la tabla `cache_locks`
+--
+ALTER TABLE `cache_locks`
+  ADD PRIMARY KEY (`key`);
+
+--
+-- Indices de la tabla `cargos`
+--
+ALTER TABLE `cargos`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `cargos_descripcion_unique` (`descripcion`);
+
+--
+-- Indices de la tabla `categorias`
+--
+ALTER TABLE `categorias`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `categorias_descripcion_unique` (`descripcion`);
+
+--
+-- Indices de la tabla `concepto_nominas`
+--
+ALTER TABLE `concepto_nominas`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `concepto_nominas_codigo_unique` (`codigo`);
+
+--
+-- Indices de la tabla `constante_formulas`
+--
+ALTER TABLE `constante_formulas`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `constante_formulas_codigo_unique` (`codigo`);
+
+--
+-- Indices de la tabla `departamentos`
+--
+ALTER TABLE `departamentos`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `departamentos_codigo_unique` (`codigo`);
+
+--
+-- Indices de la tabla `direcciones`
+--
+ALTER TABLE `direcciones`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `direcciones_codigo_unique` (`codigo`);
+
+--
+-- Indices de la tabla `diseno_archivo_textos`
+--
+ALTER TABLE `diseno_archivo_textos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `diseños_reporte`
+--
+ALTER TABLE `diseños_reporte`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `empleados`
+--
+ALTER TABLE `empleados`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `empleados_ficha_empleado_unique` (`ficha_Empleado`),
+  ADD UNIQUE KEY `empleados_cedula_unique` (`cedula`),
+  ADD UNIQUE KEY `empleados_email_unique` (`email`),
+  ADD KEY `empleados_profesion_id_foreign` (`profesion_id`),
+  ADD KEY `empleados_grupo_banco_id_foreign` (`grupo_banco_id`),
+  ADD KEY `empleados_grupo_banco_auxiliar_id_foreign` (`grupo_banco_auxiliar_id`),
+  ADD KEY `empleados_tipo_nomina_id_foreign` (`tipo_nomina_id`),
+  ADD KEY `empleados_presupuesto_id_foreign` (`presupuesto_id`),
+  ADD KEY `empleados_direccion_id_foreign` (`direccion_id`),
+  ADD KEY `empleados_departamento_id_foreign` (`departamento_id`),
+  ADD KEY `empleados_categoria_id_foreign` (`categoria_id`),
+  ADD KEY `empleados_cargo_id_foreign` (`cargo_id`);
+
+--
+-- Indices de la tabla `empresas`
+--
+ALTER TABLE `empresas`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Indices de la tabla `grupos_bancos`
+--
+ALTER TABLE `grupos_bancos`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `grupos_bancos_codigo_banco_grupo_unique` (`codigo_banco_grupo`);
+
+--
+-- Indices de la tabla `guarderias`
+--
+ALTER TABLE `guarderias`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `guarderias_codigo_guarderia_unique` (`codigo_guarderia`);
+
+--
+-- Indices de la tabla `jobs`
+--
+ALTER TABLE `jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `jobs_queue_index` (`queue`);
+
+--
+-- Indices de la tabla `job_batches`
+--
+ALTER TABLE `job_batches`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `nominas`
+--
+ALTER TABLE `nominas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `nominas_tipo_nomina_id_foreign` (`tipo_nomina_id`);
+
+--
+-- Indices de la tabla `nomina_detalles`
+--
+ALTER TABLE `nomina_detalles`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `nomina_detalles_nomina_id_foreign` (`nomina_id`),
+  ADD KEY `nomina_detalles_empleado_id_foreign` (`empleado_id`);
+
+--
+-- Indices de la tabla `password_reset_tokens`
+--
+ALTER TABLE `password_reset_tokens`
+  ADD PRIMARY KEY (`email`);
+
+--
+-- Indices de la tabla `presupuestos`
+--
+ALTER TABLE `presupuestos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `profesiones`
+--
+ALTER TABLE `profesiones`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `profesiones_descripcion_unique` (`descripcion`);
+
+--
+-- Indices de la tabla `sessions`
+--
+ALTER TABLE `sessions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `sessions_user_id_index` (`user_id`),
+  ADD KEY `sessions_last_activity_index` (`last_activity`);
+
+--
+-- Indices de la tabla `tabla_auxiliars`
+--
+ALTER TABLE `tabla_auxiliars`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `tabla_auxiliars_codigo_unique` (`codigo`);
+
+--
+-- Indices de la tabla `tabulador_categorias`
+--
+ALTER TABLE `tabulador_categorias`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `tabulador_categorias_grupo_unique` (`grupo`);
+
+--
+-- Indices de la tabla `tasas_interes`
+--
+ALTER TABLE `tasas_interes`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `tasas_interes_año_mes_unique` (`año`,`mes`);
+
+--
+-- Indices de la tabla `tipos_aumentos`
+--
+ALTER TABLE `tipos_aumentos`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `tipos_aumentos_tipo_unique` (`tipo`);
+
+--
+-- Indices de la tabla `tipos_ausencia`
+--
+ALTER TABLE `tipos_ausencia`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `tipos_ausencia_codigo_unique` (`codigo`);
+
+--
+-- Indices de la tabla `tipos_liquidacion`
+--
+ALTER TABLE `tipos_liquidacion`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tipos_prestamos`
+--
+ALTER TABLE `tipos_prestamos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tipo_acumulados`
+--
+ALTER TABLE `tipo_acumulados`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `tipo_acumulados_descripcion_tipo_unique` (`descripcion_tipo`),
+  ADD UNIQUE KEY `tipo_acumulados_descripcion_acumulados_unique` (`descripcion_acumulados`);
+
+--
+-- Indices de la tabla `tipo_frecuencia_pagos`
+--
+ALTER TABLE `tipo_frecuencia_pagos`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `tipo_frecuencia_pagos_descripcion_frecuencia_unique` (`descripcion_frecuencia`);
+
+--
+-- Indices de la tabla `tipo_nominas`
+--
+ALTER TABLE `tipo_nominas`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `tipo_nominas_descripcion_nomina_unique` (`descripcion_nomina`);
+
+--
+-- Indices de la tabla `tipo_parentesco`
+--
+ALTER TABLE `tipo_parentesco`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `users_email_unique` (`email`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `adicional_conceptos`
+--
+ALTER TABLE `adicional_conceptos`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `adicional_personals`
+--
+ALTER TABLE `adicional_personals`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `bancos`
+--
+ALTER TABLE `bancos`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `baremos`
+--
+ALTER TABLE `baremos`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `cargos`
+--
+ALTER TABLE `cargos`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `categorias`
+--
+ALTER TABLE `categorias`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `concepto_nominas`
+--
+ALTER TABLE `concepto_nominas`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `constante_formulas`
+--
+ALTER TABLE `constante_formulas`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `departamentos`
+--
+ALTER TABLE `departamentos`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `direcciones`
+--
+ALTER TABLE `direcciones`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `diseno_archivo_textos`
+--
+ALTER TABLE `diseno_archivo_textos`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `diseños_reporte`
+--
+ALTER TABLE `diseños_reporte`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `empleados`
+--
+ALTER TABLE `empleados`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `empresas`
+--
+ALTER TABLE `empresas`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `grupos_bancos`
+--
+ALTER TABLE `grupos_bancos`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `guarderias`
+--
+ALTER TABLE `guarderias`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `jobs`
+--
+ALTER TABLE `jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `nominas`
+--
+ALTER TABLE `nominas`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `nomina_detalles`
+--
+ALTER TABLE `nomina_detalles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `presupuestos`
+--
+ALTER TABLE `presupuestos`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `profesiones`
+--
+ALTER TABLE `profesiones`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tabla_auxiliars`
+--
+ALTER TABLE `tabla_auxiliars`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tabulador_categorias`
+--
+ALTER TABLE `tabulador_categorias`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tasas_interes`
+--
+ALTER TABLE `tasas_interes`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tipos_aumentos`
+--
+ALTER TABLE `tipos_aumentos`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tipos_ausencia`
+--
+ALTER TABLE `tipos_ausencia`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tipos_liquidacion`
+--
+ALTER TABLE `tipos_liquidacion`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tipos_prestamos`
+--
+ALTER TABLE `tipos_prestamos`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tipo_acumulados`
+--
+ALTER TABLE `tipo_acumulados`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tipo_frecuencia_pagos`
+--
+ALTER TABLE `tipo_frecuencia_pagos`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tipo_nominas`
+--
+ALTER TABLE `tipo_nominas`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tipo_parentesco`
+--
+ALTER TABLE `tipo_parentesco`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `empleados`
+--
+ALTER TABLE `empleados`
+  ADD CONSTRAINT `empleados_cargo_id_foreign` FOREIGN KEY (`cargo_id`) REFERENCES `cargos` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `empleados_categoria_id_foreign` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `empleados_departamento_id_foreign` FOREIGN KEY (`departamento_id`) REFERENCES `departamentos` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `empleados_direccion_id_foreign` FOREIGN KEY (`direccion_id`) REFERENCES `direcciones` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `empleados_grupo_banco_auxiliar_id_foreign` FOREIGN KEY (`grupo_banco_auxiliar_id`) REFERENCES `grupos_bancos` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `empleados_grupo_banco_id_foreign` FOREIGN KEY (`grupo_banco_id`) REFERENCES `grupos_bancos` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `empleados_presupuesto_id_foreign` FOREIGN KEY (`presupuesto_id`) REFERENCES `presupuestos` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `empleados_profesion_id_foreign` FOREIGN KEY (`profesion_id`) REFERENCES `profesiones` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `empleados_tipo_nomina_id_foreign` FOREIGN KEY (`tipo_nomina_id`) REFERENCES `tipo_nominas` (`id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `nominas`
+--
+ALTER TABLE `nominas`
+  ADD CONSTRAINT `nominas_tipo_nomina_id_foreign` FOREIGN KEY (`tipo_nomina_id`) REFERENCES `tipo_nominas` (`id`);
+
+--
+-- Filtros para la tabla `nomina_detalles`
+--
+ALTER TABLE `nomina_detalles`
+  ADD CONSTRAINT `nomina_detalles_empleado_id_foreign` FOREIGN KEY (`empleado_id`) REFERENCES `empleados` (`id`),
+  ADD CONSTRAINT `nomina_detalles_nomina_id_foreign` FOREIGN KEY (`nomina_id`) REFERENCES `nominas` (`id`) ON DELETE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

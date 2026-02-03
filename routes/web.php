@@ -26,6 +26,7 @@ use App\Http\Controllers\CategoriasController;
 use App\Http\Controllers\TabuladorCategoriasController;
 use App\Http\Controllers\TipoParentescoController;
 
+//niveles funcionales//
 use App\Http\Controllers\PresupuestoController;
 use App\Http\Controllers\DireccionController;
 use App\Http\Controllers\DepartamentoController;
@@ -43,7 +44,7 @@ use App\Http\Controllers\ConceptoNominaController;
 use App\Http\Controllers\ConstanteFormulaController;
 //
 
-
+// Rutas para Calendarios
 use App\Http\Controllers\CalendarioController;
 
 // diseños especiales//
